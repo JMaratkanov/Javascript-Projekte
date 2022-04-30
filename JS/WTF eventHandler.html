@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event Handler</title>
+    <script>
+        // document.getElementById("test"). innerHTML = "Hallo Welt; Elem ist noch nicht gerendert";
+
+        window.onload = documentIsReady;
+        function documentIsReady() {
+            document.getElementById("testId"). innerText = "Hallo Welt; wird nach window.onload gezeigt\n";
+            document.querySelector('#testId').addEventListener('click', klickverarbeitung);
+            document.querySelector('#addEventHandlerId').addEventListener('click', addEvent);
+            document.querySelector('#entferneId').addEventListener('click', removeEvent);
+            addMouseEvent();
+
+            //callback Funktion
+            let x = 7;
+            let y = 9;
+            document.getElementById("callBackId").addEventListener("click", callback(x, y));
+
+
+            document.getElementById('myForm').onsubmit = function (evt) {
+
+                let input = document.getElementById('name').value;
+                if (input.length < 10) {
+                    alert("mind 10 Buchstaben");
+                    document.getElementById('message').innerHTML = '»Name« bitte ausfüllen'
+                    evt.preventDefault();
+                    return false;
+                }else{
+                    alert("kann gesendet werden");
+                }
+            }
+            let ul_liste = document.getElementById("ulListID");
+            ul_liste.addEventListener("mouseover", function( event ) {
+                // highlight the mouseover target
+                event.target.style.color = "orange";
+
+                // reset the color after a short delay
+                setTimeout(function() {
+                    event.target.style.color = "";
+                }, 500);
+            }, false);
+
+            //die img werden mit onclick event versehen
+            let btn = document.querySelectorAll(".btn img");
+            for (let i=0; i<btn.length; i++) {
+                btn[i].onclick = function() {
+                    document.querySelector(".res h1").innerHTML = i + 1 + ".tes Bild";
+                }
+            }
+        }
+
+        function callback(a, b) {
+            return function() {
+                console.log("Summe " + (a + b));
+            }
+        }
+        function klickverarbeitung () {
+            document.querySelector('#testId').innerText += ' Das ist JavaScript mäßig eingefügter Text\n';
+        }
+        function addEvent(){
+            document.querySelector('#testId').addEventListener('click', klickverarbeitung);
+        }
+        function removeEvent(){
+            document.querySelector('#testId').removeEventListener('click', klickverarbeitung);
+        }
+        function addMouseEvent(){
+            let btn = document.querySelector('#btn');
+
+            // disable context menu when right-mouse clicked
+            btn.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+            });
+
+            // show the mouse event message
+            btn.addEventListener('mouseup', (event) => {
+                let msg = document.querySelector('#message');
+                console.log(`button code: ${event.button}`)
+                switch (event.button) {
+                    case 0:
+                        msg.textContent = 'Left mouse button clicked.';
+                        break;
+                    case 1:
+                        msg.textContent = 'Middle mouse button clicked.';
+                        break;
+                    case 2:
+                        msg.textContent = 'Right mouse button clicked.';
+                        break;
+                    default:
+                        msg.textContent = `Unknown mouse button code: ${event.button}`;
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (event) => {
+            const keyName = event.key;
+
+            if (event.ctrlKey) {
+                console.log(`Kombination von controlKey + ${keyName}`);
+            } else {
+                console.log(`Key pressed ${keyName}`);
+            }
+        }, false);
+
+        document.addEventListener('keyup', (event) => {
+            const keyName = event.key;
+
+            // As the user release the Ctrl key, the key is no longer active.
+            // So event.ctrlKey is false.
+            if (keyName === 'Control') {
+                console.log('Control key was released');
+            }
+        }, false);
+
+        document.addEventListener ("keypress", function (event) {
+            console.log ("keypress: " + event.key + " " + event.metaKey)
+        });
+    </script>
+
+    </script>
+</head>
+<body>
+<button id="entferneId">Entferne Eventhandler!</button>
+<button id="addEventHandlerId">Hinzfügen Eventhandler!</button>
+<button id="btn">Click me with any mouse button: left, right, middle, ...</button>
+<button id="btnKeys">Click me with Alt, Shift, Ctrl pressed</button>
+<div class="btn">
+    <button><img src="../img/kiwi.jpg" /></button>
+    <button><img src="../img/kiwi.jpg" /></button>
+    <button><img src="../img/kiwi.jpg" /></button>
+    <button><img src="../img/kiwi.jpg" /></button>
+</div>
+<div class="res"><h1></h1></div>
+
+<p id="messageKeys"></p>
+<p id="message"></p>
+
+<div id="testId"></div>
+
+<div id="callBackId">Eine Callback aufrufen</div>
+
+<ul id="ulListID">
+    <li>item 1</li>
+    <li>item 2</li>
+    <li>item 3</li>
+</ul>
+
+
+<form action="ajax.php" id="myForm" method="post" return false;>
+    <label for="name">
+        <input type="text" placeholder="Text eingeben" value="" id="name" size="20" required>
+    </label>
+    <label for="senden">
+        <input type="submit" value="Absenden" id="senden">
+    </label>
+</form>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Variablen</title>
+		
+		<script>
+			'use strict';
+			
+			//verboten mit use strict -> script abbruch
+			//a = 'Hallo';		//Disziplin: Fordert behandlung typischer Fehlerquellen wie undeklarierte Variable, ist aber langsamer in interprätation
+			//a = "Hallo";		//a wäre jetzt globale Variable
+			
+			let a = 'Hallo';	//deklarierung von a, 4 Möglichkeiten
+			//alert(a);
+			console.log(a);
+			
+			/*Variable ohne Schlüsselwort -> globale Variable
+			  var: Variable unabhängig von ihrem Scope/Gültigkeitsbereich
+			  let: Variable im Gültigkeitsbereich des lokalen Blocks, funktion, schleife, if
+			  const: Konstante, deklariert eine unveränderliche variable, Zuweisung nur bei Deklaration möglich
+			*/
+			
+			//Variable ohne Definition/Zuweisung => undefined
+			let b;
+			console.log(b, typeof b);
+			
+			b = 'Hi';
+			console.log(b, typeof b);
+			
+			b = true;
+			console.log(b, typeof b);
+			
+			b = Math; //JS Object
+			console.log(b, typeof b);
+			
+			b = 42;
+			console.log(b, typeof b);
+			
+			b = 42.8;
+			console.log(b, typeof b);
+			
+			const pi = 3.149;// Wertzuweisung sofort
+			console.log(pi, typeof pi);
+			
+			// Array müssen in Js nicht den selben Datentyp haben
+			let items = [111,222,333];
+			console.log(items, typeof items);
+			console.log(items[2]);
+
+			let x = [];
+			x[0] = "Hallo";
+			x[1] = 23;
+			x[2] = false;
+			console.log(x);
+			console.log(x.length);
+
+			let y = new Array(); //same
+			let z = Array();	 //same
+			
+			z[0] = 'first';
+			z[10] = 'tenth'; //Ist Okay in JS -> Array ist 11 lang und die zwischen sind leer
+			console.log(z);
+			
+		</script>
+	</head>
+	
+	<body>
+		<h2>Variablen</h2>
+		<h1><a href="../../../javascript.html">zurück</a></h1>
+	</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Arrays</title>
+	</head>
+	
+	<body>
+
+	<script>
+		//btW
+		function whatDoIDo(val){
+			return val ? 1 : 2;	//val = true if wert exists
+		}
+		console.log(whatDoIDo(2));
+
+		let a = [ -3,-2,-1, 0, 1, 2, 3 ];
+		function addOne (i){
+			console.log("Aufruf mit: " + i);
+			return i+1;
+		};
+		
+		//
+		//function whatDoIDo(array){
+		//	return array.filter(function(elem, pos){
+		//		return array.indexOf(elem) == pos;
+		//	})
+		//}
+		//let arr = ["a", "b", "c", "a", "b", "c"];
+		//console.log(whatDoIDo(arr));
+		//
+		
+		console.log(a);
+		console.log(a.forEach(addOne)); //zum schluss undefined und änder nicht
+		console.log(a);
+		
+		//ändert auch tatsäclich
+		console.log(a.map(addOne));		//ruft die funktion mit jedem arrayelement auf und hat aber einen rückgabewert(map) als array mit der selben größe
+		
+		
+		</script>
+	</body>
+</html>

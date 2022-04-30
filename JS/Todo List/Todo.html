@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Todoliste mit Javascript</title>
+		<!-- Bootstrap CSS-->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	</head>
+	
+	<body>
+		<h1 style="text-align: center;">Todoliste mit Javascript</h1>
+		
+		<section style="margin-left: 500px;">	
+			<label for="eingabe">
+				<b>Eingabefeld<b>
+			</label>
+						
+			<input type="text" id="eingabe" name="var" class="textBoxClass" value="Hier etwas eingeben" style="height: 60px;width: 600px;">
+			<input type="button" value="Hinzufügen" onclick="getText()" class="btn btn-primary">
+		</section>
+		
+		<section style="margin-left: 500px;">
+			<ul id="liste">
+				<!-- empty yet -->
+			</ul>
+		</section>
+		
+		
+		<script>
+			'use strict'
+			var count = 0;
+			
+			function getText(){
+				//Hole EIngabe des Textfeldes
+				let eingabe = document.getElementById('eingabe').value;
+				console.log(eingabe);
+				
+				let alteListe = document.getElementById('liste').innerHTML;
+						
+				//Ändere innere HTML der Liste so das neues Element ergänzt wird
+				document.getElementById('liste').innerHTML = 
+				alteListe + 
+				'<li id="L' + count + '">' + 
+				eingabe + 
+				'</li>' +
+				'<input id="B' + count + '" type="button" value="Löschen" onclick="deleteEntry('+ count +')">' +
+				'<input id="BC' + count + '" type="button" value="Ändern" onclick="changeEntry('+ count +')">';
+				
+				count++;
+			}
+			
+			function deleteEntry(which){
+				console.log("delete" + which);
+				document.getElementById('L' + which).outerHTML = '';
+				document.getElementById('B' + which).outerHTML = '';
+				document.getElementById('BC' + which).outerHTML = '';
+			}
+			
+			function changeEntry(which){
+				console.log(document.getElementById('L' + which));
+				let alterEintrag = document.getElementById('L' + which);
+				
+				document.getElementById('B' + which).outerHTML='';
+				document.getElementById('BC' + which).outerHTML='';
+				
+				
+				document.getElementById('L' + which).outerHTML = 
+				'<br id="toRemove3">' +
+				'<li id="toRemove4">'+
+				'<input type="text" id="toRemove1" class="textBoxClass" value="' + alterEintrag.innerHTML + '">' +
+				'<input type="button" id="toRemove2" value="Ändern" onclick="getTextAndRemoveChange(' + which + ')">' +
+				'</li>'
+				;
+			}
+			
+			function getTextAndRemoveChange(which){
+				
+				let eingabe = document.getElementById('toRemove1').value;
+				console.log(eingabe);
+				
+				let alteListe = document.getElementById('liste').innerHTML;
+						
+				//Ändere innere HTML der Liste so das neues Element ergänzt wird
+				document.getElementById('liste').innerHTML = 
+				alteListe + 
+				'<li id="L' + count + '">' + 
+				eingabe + 
+				'</li>' +
+				'<input id="B' + count + '" type="button" value="Löschen" onclick="deleteEntry('+ count +')">' +
+				'<input id="BC' + count + '" type="button" value="Ändern" onclick="changeEntry('+ count +')">';
+				
+				count++;
+				
+				document.getElementById('toRemove1').outerHTML = '';
+				document.getElementById('toRemove2').outerHTML = '';
+				document.getElementById('toRemove3').outerHTML = '';
+				document.getElementById('toRemove4').outerHTML = '';
+			}
+			
+		</script>
+		
+	</body>
+</html>

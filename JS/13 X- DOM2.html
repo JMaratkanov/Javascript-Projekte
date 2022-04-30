@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vorführungen</title>
+		<!-- inline style für Div -->
+		<style>		
+			.black{
+				background-color: #000;
+				color:#fff;
+				width: 100px;
+				margin: 100px auto;
+				padding:100px;
+			}
+			.red{
+				background-color: #f00;
+				color:#0f0;
+				width: 100px;
+				margin: 100px auto;
+				padding:100px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>DOM 2</h1>
+		<label for="ausgabenID">Ausgaben</label>
+		<input type="text" id="ausgabenID" name="ausgaben" value="" style="width: 1000px;">
+		
+		<br/><br/>
+		<!-- Ändern das Textfeld oben über die Dom id-->
+		<input type="button" value="get URL" onclick="getURL()">
+		<input type="button" value="get FileName" onclick="getFileName()">
+		<input type="button" value="get Domain" onclick="getDomain()">
+		<input type="button" value="get Image Info" onclick="getImageInfo()">
+		<input type="button" value="get Links" onclick="getLinks()">
+		
+		<!-- Ein Slider-->
+		<input type="range" min="1" max="100" value="50" id="myRange">
+		
+		<!-- Bilder und Links -->
+		<br/><br/>
+		<img src="../img/kiwi.jpg" id="arrowImgID"/>
+		<br/>
+		<img src="../img/kiwi.jpg" id="entcheImgID">
+		<br/><br/>
+		<a href="http://google.de">Google</a>
+		<br/>
+		<a href="http://datenmark.de">Datenmark</a>
+		<br/><br/>
+		
+		<!--Namen lesen: Inputfelder-->
+		<div class="top">
+			<label for="fname">Vorname</label><br/><br/>
+			<input type="text" id="fname" name="fname" class="textBoxClass" value="">
+			
+			<label for="lname">Nachname</label>
+			<input type="text" id="lname" name="lname" class="textBoxClass" value="">
+			
+			<p>Name: <span id="output"></span></p>	<!-- Ausgabe Span-->
+			<input type="button" value="Namen lesen" onclick="getName()">
+		</div>
+		
+		<!-- Alle Checkboxen mit einem Klick auswählen-->
+		<br/><br/>
+		<button id="checkboxId">Alle ankreuzen mit get ByName</button>	<!--Kein Onklick-->
+		<button id="checkboxId2">Alle deaktivieren mit get ByName</button>
+		<br/><br/>
+		<div>
+			<label> <input type="checkbox" id="KäseID" name="Lecker" value="Käse"> Käse </label>
+			<br/>
+			<label><input type="checkbox" name="Lecker" value="Tomaten"> Tomaten </label>
+			<br/>
+			<label><input type="checkbox" name="Lecker" value="Pilze"> Pilze </label>
+			<br/>
+			<label><input type="checkbox" name="Lecker" value="Oliven"> Oliven </label>
+			<br/>
+			<label><input type="checkbox" name="Lecker" value="Kuerbiskernbrot"> Kürbiskernbrot </label>
+			<br/>
+			<label><input type="checkbox" name="Lecker" value="Fisch"> Fisch </label>
+		</div>
+		
+		<!-- -->
+		<br/><br/>
+		<button id="getClassId">get ByClass</button>
+		<button id="attributeId">get the Attribute</button>
+		
+		<br/><br/>
+		<div class="divClass">xxx</div>
+		<div class="divClass" >yyy</div>
+		<div class="divClass" id="divId"
+			 datenAttribut="ein div mit zzz als innerHTML"	
+			 attr="noch ein Attribut"
+			 grmpf="Hallo grmpf grmf"
+		><!--Für getAttribute, hat 3 Attribute-->
+		hier sind Attribute drinne</div>
+			
+		<script>
+			'use strict';
+			function getURL(){
+				document.querySelector('#ausgabenID').value = document.URL; //id des textfeldes mit #
+			}
+			
+			function getFileName(){
+				let path = document.URL; //String
+				let page = path.split("/").pop();  //split spaltet String in einzelne Elemente und gibt Array. Pop gibt das letzte element eines arrays zurück  
+				document.querySelector('#ausgabenID').value = page;
+			}
+
+			function getDomain(){
+				document.querySelector('#ausgabenID').value = document.domain;
+			}
+
+			function getImageInfo(){
+				document.querySelector('#ausgabenID').value =
+					'Pfad vom Quietsche-Entchen: ' + document.images[0].src //document images speichert alle Bilder im Array
+					+ '================> Anzahl Bilder: ' + document.images.length;
+			}
+
+			function getLinks(){
+				document.querySelector('#ausgabenID').value = "Anzahl Links: "
+					+ document.links.length
+					+'; Link 1: ' + document.links.item(0)				//auch array
+					+'; Link 2: ' + document.links.item(1);
+				console.log(document.links.item(0));
+				console.log(document.links.item(1));
+				console.log(document.links[0]);		//macht das selbe
+				console.log(document.links[1]);
+			}
+
+			let slider = document.getElementById("myRange");		//enthält Rederenz auf Slider über id
+			let output = document.getElementById("ausgabenID");		//Referenz auf selbes Textfeld
+			output.value = slider.value;
+
+			slider.oninput = function() {		//eigenscahft des sliders kriegt eine anonyme funktion
+				output.value = this.value;			//textfeld = sliderwert bei änderung des sliders
+			}
+
+			function getName(){
+				let output = document.getElementById("output"); 
+				
+				output.innerText = document.getElementsByName("fname")[0].value + ' '+ document.getElementsByName("lname")[0].value;
+				//Achtung Elements! gibt Array mit Elementen die diesen Namen haben
+			}
+
+			//Button kriegt EventListener weil er kein Onklick sondern nur Id hat--> "click" + name der fk ohne runde klammern sonst aufruf, Das ist sauberer als onklick
+			document.querySelector('#checkboxId').addEventListener('click',setTrue);	//geht auch mit getelementbyId
+			function setTrue(){
+
+				let val = document.getElementsByName("Lecker");	//gemeinsame Id der Checkboxen -> gibt Array
+				val.forEach(function (item, index, arr){		//anonyme Funktion in foreach, 3 Parameter ist das Array
+					arr[index].checked = true;	//genau die eine Checkbox im array angesprochen
+				});
+			}
+
+			document.querySelector('#checkboxId2').addEventListener('click',setFalse);
+			function setFalse(){
+				let val = document.getElementsByName("Lecker");
+				val.forEach(function (item, index, arr){
+					arr[index].checked = false;
+				});
+			}
+
+			//Eventlistener Button
+			document.querySelector('#getClassId').addEventListener('click', getClass);
+			function getClass(){
+				let elem = document.getElementsByClassName('divClass');	//hole alle Elemente die eine divclass benutzen
+				let ausgabe = 'Anzahl: ' + elem.length + '<br/>In den div\'s steht folgender Text:<ul>';	//baue Liste
+				for(let i = 0; i<elem.length; i++) {
+					ausgabe += '<li>' + elem[i].innerHTML + '</li>';
+				}
+				document.querySelector('.divClass').innerHTML = ausgabe + '</ul>'; //querySelector holt nur das allererste div class, ändere xxx
+			}
+
+			document.querySelector('#attributeId').addEventListener('click', getAttr);
+			function getAttr(){
+				const div = document.getElementById('divId');
+				let ausgabe = 'datenAttribut: ' + div.getAttribute('datenAttribut') + '<br/>';	//von var div holt er Attribut über key
+				ausgabe += 'attr: ' + div.getAttribute('attr') + '<br/>';
+				ausgabe += 'grmpf: ' + div.getAttribute('grmpf') + '<br/>';
+
+				document.querySelector('#divId').innerHTML = ausgabe;
+			}
+
+		</script>
+	</body>
+</html>

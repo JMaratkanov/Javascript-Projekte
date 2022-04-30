@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">	<!-- für umlaute -->
+		<title>Title</title>
+		<link href="1 CSS Elemente.css" rel="stylesheet" type="text/css" /> <!-- externe Datei ../../pfad -->
+		
+		<style>
+		.size46{
+		font-size: 46px;
+		color: #00ff00;
+		}
+		</style>
+	</head>
+	<body>
+	
+		<section>               <!-- Section kapselt zusammengehörende Einheiten-->
+			<p>Texte mit Zeilenumbruch getrennt</p>
+			<br>
+			<p>Hier ist ein <b>Zeilenumbruch</b> passiert</p>
+		</section>
+		
+		<section>
+			<h1>Das ist eine große Überschrift mit <i>kursivem Text</i></h1>
+			<h3>Das ist eine keinere Überschrift</h3>
+			<h6>Das ist die keineste Überschrift</h6>
+		</section>
+	
+		<table border="5">
+			<thead>
+				<tr>
+					<th colspan="4">lange Überschrift</th> <!-- Collspan verbindet 4 Zellen einer Zeile-->
+				</tr>
+				<tr>									   <!-- Eine Row -->
+					<th>AAA</th>
+					<th>BBB</th>
+					<th>CCC</th>
+					<th>DDD</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>x</td>							   <!-- Ein Inhalt -->
+					<td>xx</td>
+					<td>xxx</td>
+					<td>xxxx</td>
+				</tr>
+				<tr>
+					<td>y</td>
+					<td>yy</td>
+					<td>yyy</td>
+					<td>yyyy</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<h2>Eine unordered List</h2>
+		<ul>
+		<li>aaa</li>
+		<li>bbb</li>
+		<li>ccc</li>
+		<li>ddd</li>
+		</ul>
+		
+		<h2>Eine ordered List</h2>
+		<ol>
+		<li>aaa</li>
+		<li>bbb</li>
+		<li>ccc</li>
+		<li>ddd</li>
+		</ol>
+		
+		<h2 style="color: #00ff00; font-size: 40px; font-family: 'Comic Sans MS'">Inline CSS</h2>
+		<p>style="<br>color: #00ff00;<br> font-size: 40px;<br> font-family: 'Comic Sans MS'<br>"</p>
+		
+		<h1 style="font-size: 46px; font-style: italic; font-family: 'Comic Sans MS'">Hallo</h1>
+		
+		
+		<h2>Ein Hyperlink</h2>
+		<a href="http://google.de" target="_blank">Nach Google</a> <!-- target macht neues Tab-->
+		
+		<h2>Bilder</h2>
+		<!--
+		<img src="../../../_images/site/quitsche_entchen.jpg" /> <!-- .. gehe eine Ebene hoch-->
+		
+		
+		<h2>Inputs</h2>
+		<label for="fname">Label für ein Eingabefeld</label><br/> <!-- Label referenziert mit for auf die id -->
+		<input type="text" id="fname" name="fnAme" class="textBoxClass" value="Startwert">
+		
+		<br><br>
+		
+		<input type="button" value="Button mit Onclick()" onclick="getURL()">
+		
+		<br/><br/>
+		
+		<label><input type="checkbox" name="Lecker" value="Tomaten"> Tomaten mit Name-Attribut </label><!-- value ist startwert -->
+		<label><input type="checkbox" value="Käse"> Käse </label>
+		<br/>
+		<label><input type="checkbox" value="Tomaten"> Tomaten </label>
+		<label><input type="checkbox" value="Pilze"> Pilze </label>
+		
+		<br/><br/>
+		
+		<!-- name soll gleich sein -->
+		<label><input type="radio" name="Lecker" value="Käse"> Käse </label>
+		<br/>
+		<label><input type="radio" name="Lecker" value="Tomaten"> Tomaten </label>
+		<br/>
+		<label><input type="radio" name="Lecker" value="Pilze"> Pilze </label>
+		<br/>
+		<label><input type="radio" name="Lecker" value="Oliven"> Oliven </label>
+		
+		<br><br>
+		
+		Ein Schieberegegler
+		<input type="range" min="1" max="100" value="50" id="myRange">
+		
+		<br><br>
+		
+		
+		<label><b>Ein Textfeld<b></label><br>
+		<textarea rows="10" cols="250">
+		Formular
+		Mit einem Formular können Daten versendet werden.Im form> Tag gibt es mindestens 2 Attribute:
+		• method 
+		Damit wird angegeben, ob das Formular mit GET oder POST versendet werden soll.
+		◦ GET
+		dabei kann man Variablen in der URL mitgeben. Diese Variablen fangen nach der
+		URL mit einem ? (Fragezeichen) an, danach folgen die Variablen nach dem 
+		Muster: Name=Wert weitere Daten werden mit dem Kaufmanns-Und voneinander getrennt.
+		z.B. 
+		meineDomain.de/startseite.html?name=Mark&nachname=Kostmann&xx=123
+		</textarea>
+		
+		<h2>CSS imported</h2>
+
+		<h3 class="size46">CSS aus sytle tag im header size46</h3>
+		<h3 id="Comic184">CSS impoterd Comic184</h3>
+		
+		<div class="divClass">
+			leeres div
+		</div>
+		<div class="divClass">
+			leeres div
+		</div>
+		<div class="divClass">
+			leeres div
+		</div>
+		
+		<p id="unnotiger_Text"> Hallo, dieser Text ist unnötig </p>
+		
+		<input type="button" value="Aktiviere Hudini Section" onclick="makeVisible()">
+		<section id="emptySektion"></sektion>
+		
+		<p>Jo</p>
+		
+		<script>
+			'use strict';
+			/*console.log(document.characterSet);
+			console.log(document.URL);
+			console.log(document.title);
+			console.log(document.images);
+			console.log(document.links);
+			console.log(document.height);*/
+			
+			
+		
+			console.log('1. Zugriff auf Wert eines Inputfeldes über ID im DOM');
+			console.log(document.getElementById('fname'));
+			//Ändert sich wenn jedes mal wenn seite neu geladen wird
+			console.log(document.getElementById('fname').value);
+			
+			console.log('2. Hole alle Elemente die TextBoxClass class verwenden');
+			console.log(document.getElementsByClassName('textBoxClass'));
+			
+			console.log('3. Holen über name-Attribut');
+			console.log(document.getElementsByName('fnAme'));
+			
+			//Element vs Elements!!!
+			
+			console.log('4. Bitte gib mir die Elemente (nur erstes) die die class "divClass" verwenden');
+			//Wenn er mehrere Elemente findet gibt er nur das erste zurück
+			console.log(document.querySelector('.divClass'));
+			//gebe mir das erste Element das divClass verwendet und ändere das innere HTML
+			document.querySelector('.divClass').innerHTML = 'ein neuer Text'; //innerText geht auch
+			
+			//Und für alle
+			console.log('4. Bitte gib mir die Elemente (alle) die die class "divClass" verwenden');
+			console.log(document.querySelectorAll('.divClass'));
+			document.querySelectorAll('.divClass')[1].innerHTML = 'ein neuer Text2'; //innerText geht auch
+			
+			//Ändere inner html von h3 aus z. 138
+			document.querySelectorAll('.size46')[0].innerHTML = 'CSS aus sytle tag im header size46 - updated';
+			
+			//Ändere den dummen Text, Fu text
+			document.getElementById('unnotiger_Text').outerHTML = '<p style="color:#FF0000" id="unnotiger_Text"> dieser text outer html changed </p>';
+			console.log(document.getElementById('unnotiger_Text').outerHTML);
+			
+			document.getElementById('unnotiger_Text').innerHTML = 'unnotiger_Text - inner html changed (if red - outer too)';
+			
+			function makeVisible(){
+				//hudini sektion goes brr
+				document.getElementById('emptySektion').outerHTML = '<section id="emptySektion"><p>brrrr die Sektion war noch nicht da</br></sektion>'
+			}
+		</script>
+		
+	</body>
+	
+	
+</html>

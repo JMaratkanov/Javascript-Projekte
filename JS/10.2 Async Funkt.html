@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilder laden</title>
+
+</head>
+<body>
+<button id="cmdId2">Click Me 2!</button>
+<img src="../img/kiwi.jpg" alt="kiwoooi"/>
+<img src="../img/kiwi.jpg" alt="kiwoooi2"/>
+<img src="../img/kiwi.jpg" alt="kiwoooi3"/>
+<img src="../img/kiwi.jpg" alt="kiwoooi4"/>
+</body>
+<script>
+    'use strict'
+    let i = 1;		//wird global benutzt weil nicht parameter
+	
+    var urls = [
+        "../img/kiwi.jpg",
+        "../img/kiwi.jpg",
+        "../img/kiwi.jpg",
+        "../img/kiwi.jpg"
+    ];
+	
+    // map ruft für jedes Element des Array die Funktion auf
+    let promises = urls.map(meineAnsynchroneFunktion);			//exliziter parameter für meineAnsynchroneFunktion nicht nötig
+    // promises = urls.forEach(meineAnsynchroneFunktion); funktioniert nicht mit promises
+
+    function meineAnsynchroneFunktion(uri) {
+        return new Promise((resolve, reject) => {
+            let image = new Image();
+            image.src = uri;
+
+            image.onload = function() {
+                console.log(i + ". Bild wurde geladen");
+                i++;
+                //resolve kann nur einen Parameter verarbeiten.
+                resolve(image);
+            }
+            image.onerror = function() {
+                reject(new Error("Kann das Bild mit URI: " + uri + " nicht laden :-(("));
+            }
+        });
+    }
+
+	//############################################################################ Verarbeite promises
+    Promise.all(promises)
+        .then(function(images) {
+            console.log("All images loaded", images)
+            return {
+                src_1: images[0].src,
+                src_2: images[1].src,
+                src_3: images[2].src,
+                src_4: images[3].src
+            }
+        })
+        .then(data => {
+            console.log("src_1: " + data.src_1);
+            console.log("src_2: " + data.src_2);
+            console.log("src_3: " + data.src_3);
+            console.log("src_4: " + data.src_4);
+        })
+        .catch(function(err) {
+            console.error(err)
+        })
+
+	//Verzögerung, Promise mit await
+    const verzögern = seconds => {
+        console.log (seconds + " Sekunde(n)");
+        return new Promise (							//returns promise: funktion die festlegen heißt und sich selbst im settimeout referneziert
+            festlegen => setTimeout (festlegen, seconds * 1000)
+        )
+    };
+
+    const rufeViele = async () => {
+        await verzögern (0.001);	//verzögern ist eine arrowfk
+        await verzögern (1);
+        await verzögern (2);
+        await verzögern (3);
+        await verzögern (6);
+    }
+
+	//Button ruft rufeviele() auf
+    document.getElementById("cmdId2").addEventListener ("click", () => {
+        rufeViele();
+    })
+
+
+
+
+</script>
+</html>

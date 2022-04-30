@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>addEventListener</title>
+		<link rel="stylesheet" href="eventHandler.css" type="text/css"></link>
+	</head>
+
+	<body>
+
+		<div onclick="inlineCall()" class="eventDemo">		<!-- Bei Klick rufe diese Fk auf, EVENTHANDLER IM SCRIPT DEKLARIEREN! -->
+			Click<span id="clickId"></span>
+		</div>
+
+		<!-- sogar 2 Events -->
+		<div onmouseover="inlineMouseover()" onmouseout="inlineMouseout()" class="eventDemo">
+			Onmouseover und mouseout
+			<span id="mouseoverId"></span> <!-- Hier soll Text rein -->
+			<span id="mouseoutId"></span>
+		</div>
+
+		<!-- auch 2 -> selbes wie oben -->
+		<div onmouseenter="inlineMouseenter()" onmouseleave="inlineMouseleave()" class="eventDemo" >
+			onmouseenter und onmouseleave
+			<span id="mouseenterId"></span>
+			<span id="mouseleaveId"></span>
+		</div>
+
+		
+		<div onmousemove="inlineMousemove()" class="eventDemo" >
+			onmousemove Event
+			<span id="mousemoveId"></span>
+		</div>
+
+
+		<script>
+			'use strict'
+			let clickInfo = 1;
+			function inlineCall(){
+				console.log("click event");
+				document.getElementById("clickId").innerHTML = "<h1>Der " + clickInfo + ". Click</h1>";
+				clickInfo++;
+			}
+			
+			function inlineMouseover(){
+				console.log("mouseover event");
+				document.getElementById("mouseoutId").innerHTML = null;
+				document.getElementById("mouseoverId").innerHTML = "<h1>Mouse-over</h1>";
+
+			}
+			function inlineMouseout(){
+				console.log("mouseout event");
+				document.getElementById("mouseoverId").innerHTML = null;
+				document.getElementById("mouseoutId").innerHTML = "<h1>Mouse-out</h1>";
+			}
+			function inlineMouseenter(){
+				console.log("mouseenter event");
+				document.getElementById("mouseleaveId").innerHTML = null;
+				document.getElementById("mouseenterId").innerHTML = "<h1>Mouse-enter</h1>";
+			}
+			function inlineMouseleave(){
+				console.log("mouseleave event");
+				document.getElementById("mouseleaveId").innerHTML = "<h1>Mouse-leave</h1>";
+				document.getElementById("mouseenterId").innerHTML = null;
+			}
+			let i = 0;
+			function inlineMousemove(){
+				console.log("mousemove event" + i);
+				document.getElementById("mousemoveId").innerHTML = "<h1>"+i + ". Ereignis</h1>";
+				i++;
+			}
+
+		</script>
+	</body>
+</html>

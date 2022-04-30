@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vorführungen</title>
+		<script>
+			let person = {	//Ein Objekt - { }
+				Vorname:'Johann',		//Eigenschaften
+				Nachname:'M',
+				Hobbys:[],
+				getName: function(){
+					return this.Vorname + ' ' + this.Nachname;
+				},
+				getHobbys: function(){
+					return this.Hobbys.join(',');
+				},
+				setFn: function(name){
+					this.Vorname = name;
+				},
+				setLn: function(name){
+					this.Nachname = name;
+				},
+				setHobby: function(hobby){
+					this.Hobbys.push(hobby);
+				}
+			
+			};
+			
+			//lesender Zugriff
+			console.log(person.Vorname + ' ' + person.Nachname);
+			
+			//schreibender Zugriff
+			person.Nachname = 'Maratkanov';
+			console.log(person.Vorname + ' ' + person.Nachname);
+			
+			person.setFn('Max');
+			person.setLn('Muster');
+			person.setHobby('Js');
+			console.log(person.getName() + ' ' + person.getHobbys());
+			
+			person.xxx = 'Eigenschaft gibt es garnicht'; //macht er
+			console.log(person);
+			
+			//Mit Klassen und Vererbungen etc.
+			class Mensch{
+				constructor(fN, lN){
+					this.Vorname = fN;
+					this.Nachname = lN;
+				}
+				sagwas(){
+					return `${this.Vorname} sagt hallo`;
+				}
+			}
+			
+			let mensch = new Mensch('Bob', 'Müller');
+			console.log(mensch.Vorname + ' ' + mensch.Nachname + ' ' + mensch.sagwas());
+			
+			//4 spezielle Methode, get, set, static - Klassenmethode, interne/private methoden (convention mit _vor name)
+			class Addieren{
+				constructor(a,b){
+					this.a = a;
+					this.b = b;
+				}
+				add(){		//Wie Fk
+					return this.a + this.b;
+				}
+				
+				set setA(z){
+					this.a = z;
+				}
+				
+				set setB(z){
+					this.b = z;
+				}
+				
+				get res(){
+					return this.a + this.b;
+				}
+			}
+			
+			let instanz = new Addieren(5,6);
+			console.log(instanz.add());
+			instanz.setA = 9;		//ohne()
+			instanz.setB = 10;
+			console.log(instanz.res);
+			
+			//Eine JS klasse ist eine spezielle FUnktion - Diese Fk macht das gleiche
+			function Affe(first, last){
+				this.Vorname = first;
+				this.Nachname = last;
+			}
+			
+			//fk erweitern - hole Prototype, füge der Klasse/Funktion eine weitere Methode hinzu
+			Affe.prototype.sagwas = function(){
+				return `${this.Vorname} sagt Ugabuga`; //mit `` hat man Zugriff auf die Variablen über $
+			}
+			
+			let affe = new Affe('Harambe','Gorilla');
+			console.log(affe.Vorname +' '+ affe.Nachname + ' ' + affe.sagwas());
+			
+			
+			class AddierenArray{
+				constructor(a){
+					this.a = a[0];
+					this.b = a[1];
+				}
+								
+				get res(){
+					return this.a + this.b;
+				}
+			}
+			
+			let instanz2 = new AddierenArray([3,5]);
+			console.log(instanz2.res);
+			
+			//static Methode
+			class Vergleichen{
+				constructor(a){
+					this.zahl = a;
+				}
+				get getZahl(){
+					return this.zahl;
+				}
+				static groesser(obj1, obj2){
+					if(obj1.getZahl > obj2.getZahl)
+						return obj1;
+					else{
+						return obj2;
+					}
+				}
+			}
+			let zahl1 = new Vergleichen(22);
+			let zahl2 = new Vergleichen(37);
+			console.log(Vergleichen.groesser(zahl1,zahl2).getZahl);	//Klassenmezhode unabhängig von instanz nutzbar
+			
+			class AddierenPrivate{
+				constructor(a,b){
+					this.a = a;
+					this.b = b;
+				}
+				_add(){		//Wie Fk
+					return this.a + this.b;
+				}
+			
+				get res(){
+					return this._add();
+				}
+			}
+			let instanz3 = new AddierenPrivate(1,1);
+			console.log(instanz3.res);
+			
+			//Vererbung
+			class Zahlen{
+				constructor(a,b){	this.a = a; this.b = b;}
+				set setZahlen(zahlen){ this.a = zahlen[0]; this.b = zahlen[1];}
+				get getZahlen(){ return [this.a, this.b]};
+			}
+			
+			class Sub extends Zahlen{
+				_berechneSub(){
+					return this.a - this.b;
+				}
+				get getRes(){
+					return this._berechneSub();
+				}
+			}
+			
+			let sub = new Sub(2,4);
+			console.log(sub.getRes);	//geerbt
+			console.log(sub.getZahlen); //eigene
+			
+			//this/ super: AUfruf methode aus elternklasse aufrufen
+			class base{
+				_hallo(){
+					return 'hallo';
+				}
+			}
+			
+			class child extends base{
+				_hallo(){
+					return 'hi';
+				}
+				
+				get getRes(){
+					return this._hallo() +  super._hallo(); //+ _hello() kennt er nicht
+				}
+			}
+			let c = new child();
+			console.log(c.getRes);
+			
+			//Vererbung geht auch mit Funktionen
+			function Namen(f,l){
+				this.V = f;
+				this.N = l;
+			}
+			
+			//neuer Constructor
+			function Magic(f,l, age){
+				//Konstruktor mit call aufrufen
+				Namen.call(this, f, l);	
+				this.age = age;
+			}
+			
+			//Methode zur Klasse hinzufügen
+			Magic.prototype.sagwas = function(){
+				return `${this.V} ${this.N} sagt was`;
+			}
+			
+			let m = new Magic("Jo", "Ma", 25);
+			console.log(m.sagwas());
+			console.log(m.N + ' ' + m.age);
+		</script>
+	</head>
+	
+	<!--Objektorientierte Programmierung in JS, wartbarkeit, erweiterbarkeit, objekte haben var/eigenschaften und fk -->
+	
+	<body>
+		<h1>Funktionen</h1>
+
+		<button onclick="ohneParameter()">Start</button>
+		<br/><br/>
+		<input type="text" name="numbers" value="" id="numbersId">
+		<label for="numbersId">Zahlen</label>
+		<br/><br/>
+		<button onclick="calculate()">Berechne</button>
+		<br/><br/>
+		<div class="response"></div>
+		<br/><br/>
+		<button id="greet">Sag Hallo</button>
+
+
+		<script>
+			
+
+		</script>
+	</body>
+</html>

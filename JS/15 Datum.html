@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vorführungen</title>
+		<script>
+			'use strict'
+			//Zeit Null 1.1.1970 in Sekunden, JS rechnet mit Ms
+			let today = new Date();	//Datumsobjekt
+			console.log("Heute ", today);
+
+			const timeZero = new Date(0);
+			console.log("Anfang der Zeit ",timeZero);
+
+			console.log("0 + 1J ",new Date(365*24*60*60*1000));	//0 + 1Jahr !Milisekunden
+
+			console.log("Jan (0) 2048 ",new Date(2048,0));
+			console.log("15 Jan 2048",new Date(2048,0,15));
+			console.log("15 jan 1948",new Date(48,0,15));
+
+			//Date from String
+			let date = new Date("2 December 2046");
+			console.log(date);
+			date = new Date("2 Jan 2046");
+			console.log(date);
+
+			//getauscht und mit Großschreibung und komma
+			date = new Date("December 2 2046");
+			console.log(date);
+			new Date("DECemBERr 2 2046");
+			console.log(date);
+			new Date("December, 2, 2046");
+			console.log(date);
+			
+			//String mit /
+			console.log(new Date("01/23/2042"));
+			console.log(new Date("2042/12/2"));
+
+			//Date 2 String
+			let dateBeliebig = new Date().toLocaleString();
+			console.log(dateBeliebig);
+
+			//Zeitelemente
+			today = new Date();
+			console.log(today.getTime());	//Integerwert in Msekunden seit 1970
+
+			console.log(today.getSeconds());	//Sekunden von aktueller minute
+			console.log(today.getMilliseconds());
+			console.log(today.getMinutes());	//Minuten der aktuellen stunde 16:03 -> 3
+			console.log("Stunden des Tages", today.getHours());
+
+			console.log(today.getDate()); // Tag als Nummer (1-31)
+			console.log(today.getDay());//	Wochentag als Nummer (0-6) SOnntag = 0
+			console.log(today.getMonth());//Monat als Nummer, beginnend mit 0! (0-11) Dec = 12
+			console.log(today.getFullYear());//Jahreszahl als 4-stellige Zahl (YYYY)
+
+			let now = new Date();	//2 Tage vor heute
+			function subtractDays(d){
+				return now.getTime() - (24*60*60*d*1000);
+			}
+			console.log(new Date(subtractDays(2)));
+
+
+			let datum = [2021,10,12,0,0,0,0];
+			const startDateTime = new Date(datum[0], datum[1], datum[2]);
+			const startMilliSeconds = startDateTime.getTime();	//Dieses datum in ms
+
+			function findDays() {
+
+				//heute ermitteln
+				let now = new Date();
+				let todayMilliSeconds = now.getTime();
+				//Differenz bilden && durch 1000 teilen == Sekunden
+				let diff = Math.round((todayMilliSeconds-startMilliSeconds)/1000);
+				// Tage ermitteln und durch diff teilen
+				let d = Math.floor(diff/(24*60*60));
+
+				// neue diff bilden diff - Tage*Stunden
+				diff = diff-(d*24*60*60); //übrig bleibt Stundenanzahl
+				let h = Math.floor(diff/(60*60)); //
+
+
+				diff = diff-(h*60*60);
+				let m = Math.floor(diff/(60));
+				diff = diff-(m*60);
+				let s = diff;
+
+				document.getElementById("time-ago").innerHTML =
+					d +" Tage, "
+					+ h + " Stunden, "
+					+ m+" Minuten, "
+					+ s +" Sekunden seit dem "
+					+ datum[2] + "."
+					+ (datum[1])
+					+ " " + datum[0]
+				;
+			}
+
+			//funktion jede sekunde aufrufen. 
+			setInterval(findDays, 1000);
+
+			//gleiche Daten 
+			let date1 = new Date (2000,0,1);
+			let date2 = new Date (2000,0,1);
+			console.log(date1,date2);
+
+			//  funktioniert nicht, nur direkt mit den Datumsobjekten auf Gleichheit zu prüfen, Fragt speichergleichheit an weil Objekt
+			if (date1 == date2 ) {
+				//… immer false!!!
+				console.log("Gleich?");
+			}
+			if (date1.getTime() == date2.getTime() ) {
+				console.log("Gleich; ja");
+			}
+
+			//Als String formatieren
+			const formatDate = (date)=>{
+				let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+				return formatted_date;
+			}
+
+			today = new Date();
+			console.log(formatDate(today));
+
+			//Same aber mit Uhrzeit
+			const formatDateHours = (current_datetime)=>{
+				let formatted_date = current_datetime.getFullYear() + "-"
+					+ (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " "
+					+ current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":"
+					+ current_datetime.getSeconds();
+				return formatted_date;
+			}
+
+			console.log(formatDateHours(today));
+
+			//Formatiere in String mit deutschen Daten
+			const months = [
+				"Januar",
+				"Februar",
+				"März",
+				"April",
+				"Mai",
+				"Juni",
+				"Juli",
+				"August",
+				"September",
+				"Oktober",
+				"November",
+				"Dezember"
+			];
+
+			const formatDateMonth = (date)=>{
+				let formatted_date = date.getDate() + ". " + months[date.getMonth()] + " " + date.getFullYear()
+				return formatted_date;
+			}
+			console.log(formatDateMonth(today));
+		</script>
+	</head>
+	<body>
+
+	<h1>Datum</h1>
+	<div id="time-ago"></div>
+
+	</body>
+</html>

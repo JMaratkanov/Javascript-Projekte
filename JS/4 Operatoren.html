@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<title>Operatoren</title>
+		<meta charset="UTF-8">
+		
+		<script>
+			'use strict'
+			let x = 10;		//Zuweisungsoperator
+			let y = 14;
+			
+			console.log(x += y); // x = x + y, Gut für schleifen
+			//	-=,	*=, /=,	%=
+			
+			//Vergleichsoperatoren -> Gibt Wahrheitswert über Vergleich von Operanden, Haben wir keine Typgleichheit versucht JS zu casten -> Oft numerisch dann
+			let var1 = 3;
+			let var2  = 4;
+			
+			console.log("3 == 4 ? " 	  , var1 == var2);			// ist Inhalt genau gleich		
+			console.log("3 == 'hallo' ? " , var1 == 'hallo');	
+			
+			console.log("1 != 2 ? "       , 1 != 2);			
+			console.log("3 == 3 ? "       , var1 == 3);			
+			console.log("3 == '3' ? "     , var1 == '3');	// !!!!True
+			
+			console.log("strict equal wenn operanden und typ gleich");
+			
+			console.log("3 === 3 ? "       , var1 === 3);	
+			console.log("3 === '3' ? "     , var1 === '3');
+			console.log("3 !== '3' ? "     , var1 !== '3');
+			
+			console.log("4 > 3 ? "     , 4 > 3);
+			// <=, >=
+			
+			//Arithmetische operatoren
+			// +, -, *, /, ** (pow), mod
+			console.log("3 + 4 "     , 3 + 4);
+			console.log("3 - 4 "     , 3 - 4);
+			console.log("3 * 4 "     , 3 * 4);
+			console.log("3 / 4 "     , 3 / 4);
+			console.log("3 ^ 4 "     , 3 ** 3); 
+			console.log("10 ^ -2 "   , 10 ** -2);
+			
+			console.log(4 % 2);// expected output: 0
+			console.log(12 % 5); // expected output: 2
+			console.log(-12 % 5);// expected output: -2
+			
+			//Inkrement & Dekrement
+			let i = 0;
+			i = 0;
+			console.log(i++);// inkrement nach dieser Zeile //++i vor dieser zeile
+			console.log(i);
+			
+			//Logische Operatoren
+			//Und Verknüfung ist nur dann wahr, wenn alle Werte wahr sind
+			console.log((true && false) || true);
+			
+			let string1 = 'Mark';
+			let string2 = ' grüßt Euch';
+			console.log(string1 + string2);
+
+			// Bedingte (ternäre) Operator
+			//boolVergleich ? val1 : val2   //Wenn boolvergleich true nehme wert 1 sonst wert 2
+			
+			let alter = 18;
+			console.log(alter >= 18 ? 'erwachsen' : 'minderjährig');
+			
+			//delete auf ein Array
+			let arr = [0,1,2];
+			console.log(arr);
+			console.log(arr[0]);
+			delete(arr[1]);		//ist noch da aber empty
+			console.log(arr);
+	
+			//typeof Datentyp
+			console.log(typeof 42); // expected output: "number"
+			console.log(typeof 'Hallo');// expected output: "string"
+			console.log(typeof true); // expected output: "boolean"
+			console.log(typeof Math); // expected output: "object"
+			console.log(typeof undeclaredVariable); // undefined
+			console.log(typeof string1);
+			
+			let empty;
+			console.log(typeof empty); // undefined
+			
+			if(typeof string1 == 'string'){
+				console.log("Variable ist ein String");
+			}else{
+				console.log("Variable ist kein String");
+			}
+			
+			let result = 2 + true;
+			console.log(result);
+			
+			result = 2 + "3";		//String + over math + bei Interprätation von + "3"
+			console.log(result);
+			
+			result = 2 + 5 * "10";
+			console.log(result);
+			
+			let result = "x" * 3;
+			console.log(result);	//nan
+			
+			console.log(isNaN(4 * 3));
+
+
+		</script>
+	
+	</head>
+	
+	<body>
+		<h1>Operatoren</h1>
+	</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Datentypen</title>
+		<script>
+			'use strict'
+			let b = null;	//console.log -> null
+			let a;			//console.log -> undefined
+			a = a*2;		//console.log -> nan
+			
+			// console.log(c); = runtime error
+			
+			//Konvertierung
+			let konvertieren = 42;
+			konvertieren = "Und jetzt ein Text";
+			konvertieren = true;
+			konvertieren = [1,2,3,4];
+			konvertieren = 3.1415926;
+			
+			//String + float/number
+			let zeichen = "die Zahl Pi lautet: " + 3.1415926; //"die Zahl Pi lautet: 3.1415926"
+			let superzahl = "42" + 7; //427 lol
+			
+			//string to int
+			a = parseInt("1001abc");	//1001 - chars werden gelöscht
+			a = parseInt("abc1001");	//nan
+			a = parseInt("-0012");		//-12
+			
+			//window onload überwacht seite wenn geladen wird -> queryselector script im head findet normal unten tabelle nicht. Führe erst aus wenn html ganz geladen
+			window.onload = documentIsReady;
+			
+			let Elemente = Array;
+			function documentIsReady(){
+				Elemente = ['003', '23', '3.1415', '23,2', '-18', '-0042', 'abc', '123abc']; // initialisierung
+				for (let i = 0; i < Elemente.length; ++i) {
+					addRow(i);							//holt tbody und inserte darin eine trow
+				}
+			}
+
+			function addRow (j) {
+				let tbl = document.querySelector('tbody');
+				let row = tbl.insertRow(0);
+				row.insertCell().innerText = Elemente[j];
+				//nächste Zelle
+				row.insertCell().innerText = parseInt(Elemente[j]);
+			}
+			
+			//Casts
+			console.log(parseFloat(3.1415926));
+			console.log(parseFloat("3.1415926"));	//string2FLoat
+			console.log(parseFloat("314159e-5"));
+			console.log(parseFloat("0.0314E+2"));
+			console.log(parseFloat("3.14abc"));		//3.14
+			console.log(parseFloat("abc3.14"));		//nan
+
+			console.log("----------------------------");
+			
+			//String2Number !Achtung -> Formularinput ist immer String, Number()ist empfindlicher als parsefloat
+			console.log(Number('3,141'));     	//NaN
+			console.log(Number('3.141'));		//klappt
+			console.log(Number('123abc')); 		//NaN
+			console.log(Number('123 abc')); 	//NaN
+			console.log(Number('3.141abc'));	//Nan
+			
+			console.log("----------------------------");
+
+			console.log (Number.isInteger(7));     // true
+			console.log (Number.isInteger(1.3));   // false
+			console.log (Number.isInteger("123")); // false
+			console.log (Number.isInteger(42));    // true
+
+			console.log("-Math---------------------------");
+
+			console.log (Math.PI);
+
+			console.log (Math.round(3.141));
+			console.log (Math.round(-1.1));
+			console.log (Math.round(1.6));
+			console.log (Math.round(1.4));
+			console.log (Math.round(1.5));
+
+			console.log (Math.floor(3.141));
+			console.log (Math.floor(-1.1));		//-2
+			console.log (Math.floor(1.9));
+
+			console.log (Math.ceil(3.141));
+			console.log (Math.ceil(-1.1));		//-1
+			console.log (Math.ceil(1.9));
+
+			console.log (Math.pow(2,4));
+			console.log (Math.pow(2,8));
+			console.log (Math.pow(2,2));
+
+			console.log (Math.min(1,2,4,5,6,-4,7,99));		//-4
+			console.log (Math.max(1,2,4,5,6,7,99));			//99
+
+			console.log (Math.random());		//random float between 0-1
+			console.log (Math.random());
+			console.log (Math.random());
+
+			// Math.round((Math.random() * (max - min)) + min);
+			console.log (Math.round((Math.random() * (100 - 0)) + 1));
+			console.log (Math.round((Math.random() * (100 - 0)) + 1));
+			console.log (Math.round((Math.random() * (6 - 1)) + 1));
+			
+			//strings = array
+			let name = "Mark";
+			console.log(name[0] + ", " + name[1] + ", " + name[2] + ", " + name[3]);
+			console.log(name.length);
+
+			a = "Hallo";
+			b = "Mark";
+			console.log(a + b);
+
+			const obst = ["Äpfel", "Birnen", "Bananen"];
+			const gemuese = ["Brokkoli", "Kohl", "Möhren"];
+
+			let nahrung = ["Brot", "Kartoffeln", "Reis", obst, gemuese];
+			console.log(nahrung); //Array mit 5 Elementen
+			/*
+			0: "Brot"
+			​1: "Kartoffeln"
+			​2: "Reis"
+			​3: Array(3) [ "Äpfel", "Birnen", "Bananen" ]
+			​4: Array(3) [ "Brokkoli", "Kohl", "Möhren" ]
+			*/
+
+			//spread operator
+			nahrung = ["Brot", "Kartoffeln", "Reis", ...obst, ...gemuese];
+			console.log(nahrung);	//array mit 9 Elementen
+			//[ "Brot", "Kartoffeln", "Reis", "Äpfel", "Birnen", "Bananen", "Brokkoli", "Kohl", "Möhren" ]
+
+			//Template Strings (mit Bactic Hochkommata ` `)
+			//"Hallo" + 'Welt' + `wie geht's'`
+
+			let x = 7;
+			let y = 13;
+			console.log(`Twenty is ${x} + ${y}`); //Im Bactic kann String kann man mit $ arebeiten
+			console.log("Twenty is ${x} + ${y}");// nope
+			
+			//spread
+			let u = 2;
+			let v = 3;
+			let w = 5;
+			
+			function spezi(strings, ...values) {
+				console.log(strings[0]); // "Hallo "
+				console.log(strings[1]); // " Welt "
+				console.log(strings[2]); // " <=> Jetzt rechnen  "
+
+				console.log(values[0]);  // 5
+				console.log(values[1]);  // 6
+				console.log(values[2]);  // 15
+			}
+
+			spezi `Hallo ${ u + v } Welt ${ u * v} <=> Jetzt rechnen ${u*w}`;   //Ohne Runde klammer.. Aufruf mit Template String
+			//Stringfunktion erkennrt was String und values sind
+			//Hallo, Welt, <=> Jetzt berechnen sind strings
+			
+			//Stringfunktionen
+			let string = "Stringfunktionen in JavaScript";
+			let position = string.lastIndexOf("funktion");
+			console.log(position);//6	String|funktionen //zählt ab 0
+			
+			position = string.search("funktion");
+			console.log(position);//6 macht gleiches
+
+			let ausschnitt = string.substr(position, 8);	//6+8
+			console.log(ausschnitt);	//funktion
+			ausschnitt = string.substr(position, 3);	//fun
+			console.log(ausschnitt);
+
+			console.log("----------------------------");
+			let res = string.slice(position,16);	//nimmt start_pos + 16 Zeichen
+			console.log(res);	//funktionen
+			res = string.slice(-13); //nimmt erste 13 zeichen von hinten
+			console.log(res);	//in javascript
+
+
+			string = "Äpfel, Bananen, Kirschen";
+			res = string.substring(7,14);		//start, ende - darf keine negativen werte haben - same wie substr- nur nimmt bei param 2 pos statt länge, pos7 bis pos 14
+			console.log(res);
+
+			res = string.substr(7,6);  //7+6
+			console.log(res);
+
+			res = string.replace("Äpfel","Mango");
+			console.log(res);
+
+			res = string.toUpperCase();
+			console.log(res);
+
+			res = string.toLowerCase();
+			console.log(res);
+
+			res = string.split(",");	//returns array
+			console.log(res);
+			
+			
+		</script>
+	</head>
+	
+	<body>
+
+		<table style="border:1px solid #b5b5b5; width: 300px;">
+			<tbody>
+			</tbody>
+		</table>
+		
+	</body>
+</html>

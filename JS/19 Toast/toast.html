@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Toasts erstellen</title>
+		<link rel="stylesheet" href="toasts.css">
+		<script src="toasts.js" defer></script>
+	</head>
+	<body>
+
+		<button id="cmdId">Toasts anzeigen!</button>
+
+		<!-- Toasts beliebte Methode um Nachrichten zu zeigen, unten die verschwinden, normal kommen toasts mit ajx, hier mit button-->
+		<!-- toasts sollen nicht im normalen Flow der Html sein: erst unsichtbar dann tauschen sie kurz auf-->
+
+		<div class="toast-container">
+			<!-- div container -->
+			<div class="toast" data-showTime="1000">Toast 1 Toast 1 </div>	<!--Attribut nicht im Html standart data-"Eigenes" -->
+			<div class="toast" data-showTime="1300">Toast 2 Toast 2 </div>
+			<div class="toast">Toast 3 Toast 3</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+
+.toast-container{		
+    position: fixed;				/*Position des Divs mit der klasse immer am viewport ausgerichtet und wird vor allen Elementen ohne angepasste Position eigenschaften angeordnet*/
+    bottom: 0.5rem;					/*div Hängt unten Jetzt*/
+    left: 50%;						/*statt links, mittig*/
+    transform: translateX(-50%);	/*transform() erlaubt innerhalb nach links oder rechts zu schieben*/
+}
+
+.toast{
+    border: 1px solid  #b5b5b5;		/* Border strichstärke art(durchgezogen) farbe	*/
+    padding: 0.8rem;				/*Trennt Text und Border*/
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);	/*1,2, param verschiebung des schattens in px, 3 param weichzeichner -> kein schwarzer schatten, 4param farbe, schwarz mit 20%*/
+    display: none;						/*wird immer angezeigt - verstecke erstmal*/
+    margin-top: 0.8rem;					/*Abstand zwischen Toasts*/
+    transition: 3s;						/*Änderung soll 3 sekunden dauern, macht hier nichts wegen display none, lösung*/
+    /* opacity: 0; => unsichtbar*/
+    opacity: 0;
+}
+
+.toast.block{
+    display: block;	/* damit wieder anzeigen	*/
+}
+
+.toast.fadein{		/* damit einmal kurz da gewesen*/
+    opacity: 1;
+}

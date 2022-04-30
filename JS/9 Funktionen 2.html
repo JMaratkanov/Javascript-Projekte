@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Funktionen Basic</title>
+		<style>
+			.eventDemo {
+				width:400px;
+				border:1px solid #000;
+				background-color: #d6fdd6;
+				padding:23px;
+				margin: 23px auto;
+				color:red;
+			}
+		</style>
+
+	</head>
+	
+	<body>
+		<button id="cmdId">Click Me!</button>
+		<button id="cmdId2">Click Me 2!</button>
+		
+		<div id="clickId" class="eventDemo">
+		Hier soll ein click-event hin
+		</div>
+		
+		<script>
+			'use strict'
+			document.getElementById("cmdId").addEventListener("click",sayHello); //click - schlüsselwort
+
+			function sayHello(){
+				alert("Hallo Welt");
+			}
+
+			
+			//anonyme Funktion - fk ohne namen
+			let sum = function addiere(a,b){
+				return a + b;
+			}
+			console.log("sum " + sum(7,5));
+			
+			// Konstruktor-Methode - noch nie verwendet
+			let summi = new Function('a','b', 'return a + b'); //param 1& 2 und 3 ist return
+			console.log ( "summi " + summi(7, 5) );
+			
+			//Arrow Funktion
+			let suemmchen = (a,b) => {
+				return a + b;
+			}
+			console.log("suemmchen " + suemmchen(7,5));
+
+			let square = x => x * x;
+			console.log ( "square: " + square(7) );
+			console.log ( "square: " + square(13) );
+
+			//callback Funktion - Funktion wird als Parameter in eine fk einrgereiccht
+			let call = () => console.log (3*3);
+			setTimeout ( call, 2000);//setTimeout ist die callback fk, mögen keine parameter
+			//code läuft trz weiter
+			
+			//Variadische Funktionen - Parameterzahl nicht festgelegt - Anzahl Parameter dynamisch
+			function buildMessage(text, ...teile) {//...teile ... bedeutet hierraus wird ein array erstellt
+				
+				// teile.join(', '); macht einen String aus einem array mit ","
+				return ">>" + text + "<<" + ": " + teile.join(', ');	//join ist eine arrayfk
+			}
+
+			console.log(buildMessage("Hallo Welt!", "Java", "PHP", "C/C++", "Visual Basic", "SQL", " oder einen anderen Text"));
+
+			//Callback aufrufe
+			let addq = function (a, b) {
+			    return a + b;
+			}
+			let productq = function (a, b) {
+			    return a * b;
+			}
+			let squareFunciq = function(x){
+			    return x*x;
+			}
+			let sayHelloq = function(){
+			    return "Hallo Welt! Heute ist ein schöner Tag!!!";
+			}
+			let myCallbackq = function (callback, ...num) { //nimm eine funktion und eine beliebige Anzahl parameter (muss zur fk passen)
+			    return callback (...num);
+			}
+
+			let add2 = (a,b) => a+b;
+			let product2 = (a,b) => a*b;
+			let squareFunci2 = a => a*a;
+			let sayHello2 = () => "Hallo Welt! Heute ist ein schöner Tag!!!";
+			let myCallback2 = (callback,...num) => callback (...num);
+
+
+
+			console.log('---');
+			console.log(myCallbackq (add2, 2, 3));
+			console.log(myCallbackq (product2, 3, 7));
+			console.log(myCallbackq (squareFunci2, 7));
+			console.log(myCallbackq (sayHello2));
+			console.log('---');
+			
+			
+			//Timeout
+			let sec = 0;
+			const verzoegern = seconds => {
+				sec = seconds;
+				setTimeout (callme, seconds * 1000);
+			};
+
+			function callme(){
+				alert(sec + " Sekunde(n)");
+			}
+			
+			const rufeViele = () => {
+				verzoegern (1);
+				verzoegern (2);
+				verzoegern (3);
+			}
+
+			document.getElementById("cmdId2").addEventListener ("click", () => {rufeViele ();})
+		</script>
+	</body>
+</html>

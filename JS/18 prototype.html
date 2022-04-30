@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Prototype</title>
+		<style>
+        .eventDemo {
+            width:500px;
+            border:1px solid #000;
+            background-color: #d6fdd6;
+            padding:23px;
+            margin: 23px auto;
+            color:red;
+            text-align: center;
+        }
+        .hide {
+            opacity: 0.1;
+            transition: 3.5s;
+        }
+        .show {
+            opacity: 1;
+            transition: 3.5s;
+        }
+		</style>
+	</head>
+	<body>
+		<div class="eventDemo">
+			<div class="prototypeDemo show">
+				<img src="../img/kiwi.jpg" alt="ein Ei" width="160"/>
+				<img src="../img/kiwi.jpg" width="110"alt="Quitsche Entchen"/>
+				<img src="../img/kiwi.jpg"  width="80" alt="Smiley"/>
+				<img src="../img/kiwi.jpg" alt="Pfeil nach oben"/>
+			</div>
+			<button type="image" id="showhide">Verstecke</button>
+		</div>
+	
+		<script>
+			'use strict'
+			//Alle JS Objekt wie Array, Date, Functions, math haben ihre eigenschaften und methoden von einem master objekt: object
+			//wovon sie erben, gilt auch für selbstgemachte obejkte -> erben auch von object.prototype
+			// date erbt von date.prototype, array von array.prototype, jedes Obejekt hat verbindung zu einem eltern objekt was sein
+			// prototype ist, neues objekt hat auch referenz zu seinem "vorfahren"
+
+			// Array um Info erweitert // info ist methode
+			Array.prototype.info = function (){
+				return "Länge: " + this.length + ", Inhalt: " + this.join(", ");//join->array2string
+			}
+			let array = [0,1,2,3,4,5,6,7,8,9];
+			console.log(array.info());
+
+			// Tage hinzu fügen
+			Date.prototype.addDays = function (d) {
+				//getTime mach Milisekunden aus dem Datum
+				this.setTime (this.getTime () + (d*24*60*60*1000));
+				return this;
+			}
+			let today = new Date();
+			console.log(today);
+			// 30 Tage hinzu
+			console.log(today.addDays (30));
+
+			// Tage abziehen
+			Date.prototype.removeDays = function (d) {
+				//getTime mach Milisekunden aus dem Datum
+				this.setTime (this.getTime () - (d*24*60*60*1000));
+				return this;
+			}
+			today = new Date();
+			// 30 Tage weniger
+			console.log(today.removeDays (30));
+
+			// Datumsformat ans deutsche anpassen
+			Date.prototype.showDate = function (date) {
+				return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+			}
+			today = new Date();
+			console.log(today.showDate(today));
+
+			// String bearbeiten
+			String.prototype.show = function (){
+				console.log(this);		//this = aufrufendes objekt
+			}
+			"Hallo Welt, hallo Ihr da draussen!!! Wie geht es Euch???".show();
+
+			// ersten 3 Buchstaben groß
+			String.prototype.toUpper = function() {
+				let string = this;
+				return  string[0].toUpperCase() +
+					string[1].toUpperCase() +
+					string[2].toUpperCase() +
+					string.slice(3);//rest dranhängen
+			}
+			console.log("mkostmann is ein Software-Entwickler".toUpper());
+
+			String.prototype.letterDistance = function (char) {
+				var index = this.indexOf(char);
+
+				if (index === -1) {
+					console.log(char + " gibt es nicht in " + this);
+				} else {
+					console.log(char + " ist der " + (index + 1) + ". Buchstabe in " + this);
+				}
+			};
+			"Mark Kostmann".letterDistance("o");
+
+			//Button mit Bildern
+			document.querySelector("#showhide").addEventListener ("click", function () {
+				if (this.textContent == "Verstecke") {						//Name des Buttons/sein Textcontent
+					// Das Element wird direkt aufgerufen, also keine Funktion
+					document.querySelector(".prototypeDemo").hide();		//hole das div element und refe hide() auf
+					this.textContent = "Zeige";
+				} else {
+					// Das Element wird direkt aufgerufen, also keine Funktion
+					document.querySelector(".prototypeDemo").show();
+					this.textContent = "Verstecke";		//Ändere Text des Namens
+				}
+			});
+
+			// Ein Element wird um die Methode show erweitert
+			Element.prototype.show = function(){
+				this.classList.remove("hide");	//hole css raus
+				this.classList.add("show");		//nutze andere css auf diesem Element
+			};
+
+			// Ein Element wird um die Methode hide erweitert
+			Element.prototype.hide = function(){
+				this.classList.remove("show");
+				this.classList.add("hide");
+			};
+		</script>
+		<script>
+			'use strict'
+
+			/**
+			 * Eine Klasse mit 4 Eigenschaften
+			 * Die Methoden, die mit einem "_" beginnen sind quasi privat
+			 * und sollen nur von der Klasse selber aufgerufen werden.
+			 */
+			class Person {
+				constructor(first, last, gender, interests) {
+					this.name = {
+						'first': first,
+						'last' : last
+					};
+					this.gender = gender;
+					this.interests = interests;
+				}
+				_getName(){
+					let gender = null;
+					if(this.gender == "m"){
+						gender = "ein Mann";
+					}
+					if(this.gender == "w"){
+						gender = "eine Frau";
+					}
+					return this.name.first + " "
+						+ this.name.last + " ist "
+						+ gender + ". Die Hobbies sind: "
+						+ this._getArrayItems();
+				}
+				_getArrayItems(){
+					if(Array.isArray(this.interests)){
+						return this.interests.map(this._getValue);
+					}
+				}
+				_getValue(name){
+					return name;
+				}
+				get getPerson(){
+					return this._getName();
+				}
+			}
+
+			// Objekt mit der Klasse erzeugen
+			let mensch = new Person(
+				"Mark",
+				"Kostmann",
+				"m",
+				["Segeln","Fahrrad fahren", "schwimmen"]
+			);
+			console.log(mensch.getPerson);
+
+			// Eigenschaften neu hinzu fügen, diese gab es bei der Klasse noch nicht
+			Person.prototype.groesse = 1.86;
+			console.log(mensch.groesse);
+
+			// Methoden neu hinzu, gab es bei der Klasse auch noch nicht
+			Person.prototype.greeting = function() {
+				console.log(mensch.name.first + ' grüßt herzlich!');
+			};
+			mensch.greeting();
+
+
+			/**
+			 * Angestellter erbt von Person
+			 * mittels super wird der Konstruktor der Elternklasse aufgerufen
+			 */
+			class Angestellter extends Person{
+				constructor(first, last, gender, interests, job, saleryPerYear) {
+					super(first, last, gender, interests);
+					this.job = job;
+					this.saleryPerYear = saleryPerYear;
+				}
+				_getAngestellter(){
+					let salutation  = null;
+					let personalpron = null;
+					let personalpron2 = null;
+					if(this.gender == "m"){
+						salutation  = "Herr";
+						personalpron = " er ";
+						personalpron2 = " sein ";
+					}
+					if(this.gender == "w"){
+						salutation  = "Frau";
+						personalpron = " sie ";
+						personalpron2 = " ihr ";
+					}
+					return salutation + " " + this.name.last + " "
+						+ "und " + personalpron2 + " Beruf ist: "
+						+ this.job + personalpron + "verdient " + this._getMonthSalary()
+						+ " Euronen pro Monat"
+				}
+				_getMonthSalary(){
+					return this.saleryPerYear/12;
+				}
+				get getAngestellter(){
+					return this._getAngestellter();
+				}
+			}
+
+			Angestellter.prototype.farewell = function() {
+				alert(angest.name.first + ' hat das Gebäude verlassen. auf wiedersehen!');
+			};
+			let angest = new Angestellter(
+				"Benny",
+				"Sanchez",
+				"w", ["vegan","Skype"],
+				"Steuerprüferin",60000);
+			console.log(angest.getAngestellter);
+			angest.farewell();
+
+	</script>
+	</body>
+</html>

@@ -1,0 +1,13 @@
+<style>
+	.size46{						/* für class */
+		font-size: 46px;
+		color: #0000ff;
+	}
+ 
+	#Comic184{					/* für id*/
+		 font-size: 184px;
+		 font-style: italic;
+		 font-family: 'Comic Sans MS';
+		 color: #00ff00;
+	}
+</style>

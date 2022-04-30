@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vorführungen</title>
+		<!-- inline style für Div -->
+		<style>		
+			.black{
+				background-color: #000;
+				color:#fff;
+				width: 100px;
+				margin: 100px auto;
+				padding:100px;
+			}
+			.red{
+				background-color: #f00;
+				color:#0f0;
+				width: 100px;
+				margin: 100px auto;
+				padding:100px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>DOM 2</h1>
+				
+		<!-- Bilder und Links -->
+		<br/><br/>
+		<img src="../img/kiwi.jpg" id="arrowImgID"/>
+		<br/>
+		<img src="../img/kiwi.jpg" id="entcheImgID">
+		
+		<br/><br/>
+		<button id="cmdImgId">Bild bewegen</button>
+		
+		<!-- Texte und Elemente erzeugen -->
+		<br/><br/>
+		<input type="button" class="buttonClass" value="Text- und HTML Elemente erzeugen" onclick="createText()">
+		<input type="button" class="buttonClass" value="neue Liste erstellen" onclick="newList()">
+		<input type="button" class="buttonClass" value="neues Bild einfügen" onclick="newImage()">
+		<input type="button" class="buttonClass" value="viele Bilder einfügen" onclick="createImg()">
+		<input type="button" value="Quitsche Entchen entfernen" onclick="remove('entcheImgID')">
+		
+		<!-- Entferne bild mit Id Übergabe parameter-->
+		<input type="button" value="Pfeil entfernen" onclick="remove('arrowImgID')">		
+		
+		<br/><br/>
+		<div id="imageId"></div>
+		<div id="listDivId" class="divClass" ></div>
+		<div id="newElementsID"></div>
+		<div id="targetID"></div>
+		
+		<h1>set/remove CSS</h1>
+		<br/><br/>
+		<input type="button" value="remove CSS" onclick="removeCSS()">
+		<input type="button" value="add CSS" onclick="addCSS()">
+		<input type="button" value="remove all CSS" onclick="removeAll()">
+		<input type="button" value="add style" onclick="addStyle()">
+		<br/><br/>
+		<div id="divCSSID" class="black xxx yyy zzz">
+			Dies ist Text in einem div-tag.
+		</div>
+		
+		
+		<script>
+			'use strict';
+			
+			document.querySelector('#cmdImgId').addEventListener('click', moveImage);
+
+			let interval = null;
+			let pos_x = 10;			//block globale var
+			let pos_y = 250;
+			
+			function moveImage(){
+				let img = document.getElementById('entcheImgID');	//ganzes image hier drin
+				img.style.position = 'absolute';	//absolute = inline styling für position
+				interval = setInterval(function(){	//setintervall macht über zeit etwas, ruft move auf alle 10s, param:anon fk und number
+					move(img);
+				}, 10);
+			}
+
+			function move(img){
+				img.style.left = pos_x + 'px'; //222px
+				img.style.top = pos_y + 'px';
+				pos_x = pos_x + 1;
+				pos_y = pos_y + 1;
+
+				if(pos_x > 500){
+					clearInterval(interval);	//browswr fk, sagt stoppe interval = setInterval...
+				}
+			}
+
+			function createText(){
+				let p = document.createElement('p');		//dokument- erstelle mir ein p und speichere in var p
+				p.style = "font-size: 48px;"
+				p.appendChild(document.createTextNode('Hallo, '));	//Hefte in <p> einen Text dran...
+
+				let span = document.createElement('span');		
+				span.style = "font-size:96px";
+				span.appendChild(document.createTextNode('Welt'));		
+
+				let attention = document.createTextNode('!!!!');	//Hefte das an den span
+				span.appendChild(attention);
+
+				span.innerHTML = span.innerHTML  + " Wie geht es???";	//Füge nochmal was hinzu + alter inhalt
+
+				p.appendChild(span);//mache span In das p
+
+				document.getElementById('newElementsID').appendChild(p);		//packe das alles in ein leeres div
+			}
+
+			//Liste erzeugeb
+			function newList(){
+				const liste = document.getElementById("listDivId");		//hole leeren div conatainer
+
+				const ul = document.createElement('ul');
+				
+				const li = document.createElement('li');
+				li.textContent = "Hallo";
+				
+				const li1 = document.createElement('li');
+				li1.textContent = "Welt";
+				
+				const li2 = document.createElement('li');
+				li2.textContent = "Wie geht es Euch?";
+				
+				const li3 = document.createElement('li');
+				li3.textContent = "Macht JavaScript noch Spaß?";
+
+				ul.appendChild(li);
+				ul.appendChild(li1);
+				ul.appendChild(li2);
+				ul.appendChild(li3);
+
+				liste.appendChild(ul);//füge kind dem leeren div ein
+			}
+
+			function newImage(){
+				let img = document.createElement ("img"); // new Image()
+				// let img = new Image();
+				img.height = 150;
+				img.title = 'neues Bild'
+				img.src = "../img/kiwi.jpg";
+				const ID = Math.floor(Math.random() * (100000000 - 1)) + 1;	//Id erzeugen mit random
+				img.id = ID;
+
+				let lineBreak = document.createElement('br');
+
+				document.querySelector("#imageId").appendChild(img);	//div container imageid
+				document.getElementById(ID).after(lineBreak);		//appende und dann linebrake
+			}
+
+			function createImg(){
+				let elems = [	//array
+					'../img/kiwi.jpg',
+					'../img/kiwi.jpg',
+					'../img/kiwi.jpg',
+					'../img/kiwi.jpg',
+				];
+				//Framgment = sowas wie container
+				let fragment = document.createDocumentFragment();
+
+				for (let i=0; i<elems.length; i++) {
+					let newNode = document.createElement('img'); //erstellee jedes mal ein image 
+					newNode.setAttribute('src', elems[i]);	//füge src jewils den inhalt des arrays an stelle i ein
+					fragment.appendChild(newNode);	//füge es dem fragment hinzu
+				}
+
+				document.querySelector('#targetID').appendChild(fragment);
+			}
+
+
+			function remove(ID){
+				//identifizieren des Knotens
+				let element = document.getElementById(ID);	//Hole das zu löschende Element über id
+				//Aufrufen des Elternknotens
+				element.parentNode.removeChild(element)	; //Leider muss man das über das parent machen
+			}
+
+			function removeCSS(){							//schmeißt css klasse black raus
+				const el = document.querySelector('#divCSSID');	//Id des schwarzen div
+				if (el.classList.contains("black")) {			//benutzt das element die css klasse black
+					el.classList.remove("black");
+				}
+			}
+
+			function addCSS(){
+				const el = document.querySelector('#divCSSID');
+				el.classList.add("red");		//füge css klasse red in klassenliste ein
+			}
+
+			function removeAll(){
+				document.querySelector('#divCSSID').className = '';	//hat dann garkeine css mehr
+			}
+
+			function addStyle(){
+				document.querySelector('#divCSSID').style = 'font-size:46px; background-color: #0f0;color:red';
+			}
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vorführungen</title>
+
+    <script>
+        'use strict';
+        let fruits = ['Birnen', 'Kiwis', 'Bananen', 'Kirschen', 'Äpfel',];
+
+        // Lese Zugriff
+        console.log(fruits[1]); // kiwis
+        // Schreib Zugriff
+        fruits[4] = 'Orange'
+        console.log(fruits);
+
+		let xy = new Array(4); //neues Array mit 4 Elementen
+
+        // Über ein Array interieren (der 3. Parameter liefert das Array
+        fruits.forEach(function(item, index, array) {
+            console.log(item, index, array);
+        });
+		console.log("######");//same//namen egal 
+		fruits.forEach((item, index, array) => {
+            console.log(item, index, array);
+        });
+		console.log("######");
+		
+		//Element ans Ende eines Arrays fügen
+        fruits.push('Ananas');
+        console.log(fruits);
+
+        //letztes Element am Ende des Arrays löschen
+        fruits.pop();
+        console.log(fruits);
+
+
+        // Ein Element am Anfang des Arrays einfügen
+        fruits.unshift('Mango');
+        console.log(fruits);
+
+        //Element am Anfang des Arrays löschen
+        fruits.shift();
+        console.log(fruits);
+
+        //Index finden
+        console.log("Index von Bananen: ", fruits.indexOf('Bananen'));
+
+        // Ausgabe als Tabelle
+        console.table(fruits);
+
+        // prüfen ob Array ist
+        console.log(Array.isArray(fruits));
+
+        //Länge
+        console.log(fruits.length);
+
+        // Erstellen eines zweidimensionalen Arrays
+        let items = [
+            [1, 2],	//0tes Element
+            [3, 4],
+            [5, 6]
+        ];
+        console.log(items[0][0]); // 1
+        console.log(items[0][1]); // 2
+        console.log(items[1][0]); // 3
+        console.log(items[1][1]); // 4
+        console.log(items);
+
+        //automatisch erzeugen von 2d array
+        let values = [];
+        for (var x = 0; x < 10; x++){
+            values.push([2 ** x,  2*x**2])
+        };
+        console.log(values)
+        /**
+         * join
+         * Die Methode join() erstellt und gibt einen neuen String zurück,
+         * indem alle Elemente in einem Array (oder einem Array-ähnlichen Objekt)
+         * verkettet werden, getrennt durch Kommas oder eine angegebene Trennzeichenfolge.
+         * Wenn das Array nur ein Element enthält, wird dieses Element ohne Verwendung
+         * des Trennzeichens zurückgegeben.
+         */
+        const elements = ['Feuer','Luft', 'Wasser'];
+
+        console.log(elements.join()); // "'Feuer', 'Luft', 'Wasser'" - one string mit komma
+        console.log(elements.join('')); // FeuerLuftWasser
+        console.log(elements.join('<->')); // Feuer<->Luft<->Wasser
+
+
+        //noch ein 2-dimensionales Array
+        var board = [
+            ['A','B'],
+            ['C','D'],
+            ['E','F'],
+            ['G','H']
+        ];
+
+        /**
+         * Die join() Methode verkettet alle Elemente eines Arrays
+         * (oder Array-ähnlicher Objekte) durch Kommata getrennt oder
+         * einem angegebenen Trennzeichen in einem String und gibt
+         * diesen zurück.
+         * */
+        console.log(board.join('\n') + '\n\n');
+        console.table(board.join());
+        console.table(board);
+
+
+        /**
+         * sortieren
+         * Ohne weiteren Parameter werden die Elemente des Arrays in Strings konvertiert und miteinander verglichen.
+         sort() ändert den Inhalt des Arrays.
+         */
+        const zahlenString = ['eins', 'zwei', 'drei', 'vier', 'fünf'];
+        zahlenString.sort();
+        console.log(zahlenString); // "drei", "eins", "fünf", "vier", "zwei"
+
+
+        // Achtung Zahlen
+        // des Zahlen Arrays ebenfalls alphabetisch und nicht numerisch sortiert worden sind.
+        //
+        // Javascript wandelt Zahlen in Zeichenketten um, so dass 17 vor 7 rangiert.
+        // Um numerische Werte zu sortieren, muss eine Funktion erzeugt und übergeben werden,
+        // die Zahlen vergleicht.
+
+        const array1 = [1, 17, 7, 88, 8, 99, 9, 30, 4, 21, 100000];
+        array1.sort();	//1,100000,17 falsch
+        console.log(array1);
+
+        /**
+         * Wenn eine andere Sortierfunktion gefordert ist, kann eine 
+		 
+!!!!!		 Funktion als Argument
+
+		 übergeben werden. Diese Funktion soll zwei Werte vergleichen
+         * und einen Wert zurückgeben, der die Sortierreihenfolge vorgibt:
+         *
+         * -1, wenn das erste Element vor dem folgenden stehen soll,
+         * 1, wenn das zweite Element vor dem ersten rangieren soll,
+         * 0, wenn die beiden Elemente gleich sind und in beliebiger Folge stehen können.
+         *
+         * Um Zahlen zu vergleichen, subtrahiert die Vergleichsfunktion nur die zweite von
+         * der ersten Zahl:
+         */
+
+
+        let numbers = [27, 2, 0, -4, 10, 4, -23, 17, 99, 1, 42, 7];
+        sortierenAufsteigend();
+
+        function sortierenAufsteigend() {
+            numbers.sort(sortNumberPlus);		//.sort mit funktion
+            console.log(numbers);
+        }
+        function sortNumberPlus(a,b) {
+            return a - b;
+        }
+
+        sortierenAbsteigend();
+        function sortierenAbsteigend() {
+            numbers.sort(sortNumberMinus);
+            console.log(numbers);
+        }
+
+        function sortNumberMinus(a,b) {
+            return a + b;
+        }
+
+        // Mit anonymer Funktion
+        let arrSort = [13, 511, 7, 1024, 4711, 0, -18, -8, -37, 6798];
+        console.log(arrSort);
+		
+        arrSort.sort(function(a,b) {
+            return a - b;
+        });
+        console.log('sortiert',arrSort);
+
+
+        /**
+         * Filter
+         * kann man Filter-Funktion übergeben
+         */
+        const words = ['Mark', 'Grenze', 'Eliteuniversität', 'sprech', 'Zerstörer', 'Fregatte'];
+        const result = words.filter(word => word.length > 6); //nimmt arrow/anonyme fk, wenn mehr als 6 zeichen nimm es
+        console.log(result);
+
+        /**
+         * Find
+         * Die Methode find() gibt den Wert des ersten Elements im bereitgestellten
+         * Array zurück, das die bereitgestellte Testfunktion erfüllt. Wenn keine Werte
+         * die Testfunktion erfüllen, wird undefined zurückgegeben.
+         */
+        const zahlen = [5, 7, 4, 1, 12, 8, 130, 44];
+        const found = zahlen.find(element => element > 10);		//finde erstes element >10 also 12
+        console.log(found);
+        const found2 = zahlen.find(element => element > 12);
+        console.log(found2);
+
+
+		//Map bildet auf jeses element eines aaray eine fk an ung gibt es als neues array zurück
+        /**
+         * foreach
+         */
+        const arr = ['a', 'b', 'c', 1, 2, 3];
+        arr.forEach(element => console.log(element));
+
+        /**
+         * map
+         * Die map() (engl. abbilden) Methode wendet auf jedes Element
+         * des Arrays die bereitgestellte Funktion an und gibt das Ergebnis
+         * in einem neuen Array zurück.
+         */
+        const arr2 = [1, 4, 7,8,9, 16,23];
+
+        // pass a function to map
+        const map1 = arr2.map(x => x * 2);
+
+        console.log(map1); // [ 2, 8, 14, 16, 18, 32, 46 ]
+
+        /**
+         * array.slice()
+         * kopiert Elemente von einem Startindex bis zu einem Endindex in ein neues Array.
+         * Javascript slice(start[, end]) kopiert einen Bereich eines Arrays in ein anderes Array.
+         * start ist die Anfangsposition und end die Position nach dem ausgeschnittenen Bereich.
+         * Wenn eine der beiden Zahlen negativ ist, wird vom Ende des Arrays aus gezählt.
+         * Das Original-Array bleibt erhalten – die Methode array.slice() ist nicht destruktiv.
+         */
+
+        const arrName = ["Mark", "Jojo", "Mona", "Benny", "Jupp"];
+        console.log(arrName.slice (0, 3)); // "Mark", "Jojo", "Mona"
+        console.log(arrName.slice (1, 3)); // "Jojo", "Mona"
+        console.log(arrName.slice (2, 4)); // Mona, Benny
+        console.log(arrName.slice (3, 4)); // Benny			Mark", "Jojo", "Mona", |"Benny"|, "Jupp"
+
+        const animals = ['Hund', 'Katze', 'Vogel', 'Kuh', 'Schwein', 'Esel'];
+
+        console.log(animals.slice(2)); // "Vogel", "Kuh", "Schwein"
+        console.log(animals.slice(2, 4)); // "Vogel", "Kuh"
+        console.log(animals.slice(1, 5)); // 'Katze', 'Vogel', 'Kuh', 'Schwein'
+
+        console.log(animals.slice(-2)); //'Schwein', 'Esel'
+        console.log(animals.slice(-4)); //'Vogel', 'Kuh', 'Schwein', 'Esel'
+        console.log(animals.slice(2, -1)); // "Vogel", "Kuh", "Schwein"
+        console.log(animals.slice(2, -2)); // "Vogel", "Kuh"
+
+
+        /**
+         * splice()
+         * fügt Elemente an einer beliebigen Position des Arrays ein oder
+         * löscht eine Anzahl von Elementen ab einer beliebigen Position.
+         *
+         * Javascript array.splice(start, c [, e]) fügt c Elemente, die als Parameter
+         * e1, e2, … ec aufgeführt sind, in das Array ab Position start ein und
+         * überschreibt dabei vorhandene Elemente.
+         *
+         * Mit dem dritten Argument fügt array.splice() ein neue Elemente in ein Array ein.
+         */
+		 //@param start - wo anfangen, löschen bis dahin, eifügen
+
+        let months = ['Jan', 'Feb', 'März', 'April', 'Mai', 'Juni', 'Juli','Aug'];
+
+        months.splice(0, 0);	//nichts
+        console.log(months); // "Jan", "Feb", "März", "April", "Mai", "Juni", "Juli", "Aug"
+
+        months = ['Jan', 'Feb', 'März', 'April', 'Mai', 'Juni', 'Juli','Aug'];
+        months.splice(0, 1);
+        console.log(months); // "Feb", "März", "April", "Mai", "Juni", "Juli", "Aug"
+
+        months = ['Jan', 'Feb', 'März', 'April', 'Mai', 'Juni', 'Juli','Aug'];
+        months.splice(0, 2); // "März", "April", "Mai", "Juni", "Juli", "Aug"
+        console.log(months);
+
+        months = ['Jan', 'Feb', 'März', 'April', 'Mai', 'Juni', 'Juli','Aug'];
+        months.splice(0, 3);
+        console.log(months); // "April", "Mai", "Juni", "Juli", "Aug"
+
+        months = ['Jan', 'Feb', 'März', 'April', 'Mai', 'Juni', 'Juli','Aug'];
+        months.splice(8, 0, 'Sep','Okt','Nov');
+        console.log(months); // "Jan", "Feb", "März", "April", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov"
+
+
+		let arra = [10, 9, 8, 7, 6, 5];
+		let resu = arra.every(function(m) {
+			return m >= 5;
+		});
+		console.log(resu);//returns true
+		console.log(typeof arra);	//returns object -> useless stattdessen:
+		console.log([1, 2, 3] instanceof Array);
+		arra.length = 0;; //löscht array - console.log: undefined
+
+		const friends = [
+		{name: 'Antonio',    age: 32},
+		{name: 'Lars', age: 42},
+		{name: 'Mark', age: 65},
+		{name: 'Nero', age: 22},
+		{name: 'Oskar',age: 72},
+		{name: 'Ricardo', age: 58}
+		]
+		const selection = friends.filter(
+			({name}) => name.endsWith('o')
+		)
+		console.log(selection);
+		
+		let arrrr = [1, 2, 3, 4, 5];
+		console.log(arrrr.splice(1,4));
+        
+    </script>
+</head>
+<body>
+
+<h1>arrays</h1>
+
+</body>
+</html>

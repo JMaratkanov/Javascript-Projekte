@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>addEventListener</title>
+		<link rel="stylesheet" href="eventHandler.css" type="text/css"></link>
+	</head>
+
+	<body>
+
+	<div id="first" class="eventDemo">First Element; click</div>		<!-- Eventhandler im Script deklariert -->
+	<div id="second" class="eventDemo">Second Element; click</div>
+	<div id="third" class="eventDemo">Third Element; click</div>
+
+	<div id="mouseoverId" class="eventDemo">Mouseover Element</div>
+	<div id="mouseoutId" class="eventDemo">Mouseout Element</div>
+	<div id="mousemoveId" class="eventDemo">Mousemove Element</div>
+
+	<div id="mouseupId" class="eventDemo">
+		Mouseup Element<br/><span id="messageId"></span>
+	</div>
+
+	<script>
+		'use strict'
+		const first = document.getElementById("first");
+		const second = document.getElementById("second");
+		const third = document.getElementById("third");
+
+		//1 Möglichkeit Event Anzubinden, feuert alle
+		first.addEventListener("click", handler_1);
+		first.addEventListener("click", handler_2);
+		first.addEventListener("click", handler_3);
+
+		//2 Möglichkeit Event Anzubinden, feuert nur den dritten, überschrieben
+		second.onclick = handler_1;
+		second.onclick = handler_2;
+		second.onclick = handler_3;
+
+		//3 Möglichkeit Event Anzubinden, feuert nur den dritten, überschrieben
+		third.setAttribute("onclick", "handler_1()");
+		third.setAttribute("onclick", "handler_2()");
+		third.setAttribute("onclick", "handler_3()");
+
+		function handler_1() {
+			console.log("1. handler");
+		}
+		function handler_2() {
+			console.log("2. handler");
+		}
+		function handler_3() {
+			console.log("3. handler");
+		}
+
+		const mouseover = document.getElementById("mouseoverId");
+		mouseover.addEventListener("mouseover",funciMouseover);
+		function funciMouseover() {
+			console.log("mouseover");
+		}
+
+		const mouseout = document.getElementById("mouseoutId");
+		mouseout.addEventListener("mouseout",funciMouseout);
+		function funciMouseout() {
+			console.log("mouseout");
+		}
+
+		const mousemove = document.getElementById("mousemoveId");
+		mousemove.addEventListener("mousemove", funciMousemove);
+		let i = 0;
+		function funciMousemove() {
+			console.log("mouseout: " + i);
+			i++;
+		}
+
+		const mouseup = document.getElementById("mouseupId");
+		mouseup.addEventListener("click", funciMouseup);			//Klick
+
+		function funciMouseup(){
+			const div = document.getElementById("mouseupId");
+			// show the mouse event message
+			div.addEventListener('mouseup', (event) => {			//e für event, anon fk
+				let msg = document.querySelector('#messageId');
+				console.log(`button code: ${event.button}`)
+				switch (event.button) {
+					case 0:
+						msg.textContent = 'Linke Maustaste geklickt.';
+						break;
+					case 1:
+						msg.textContent = 'Mittlere Maustaste geklickt.';
+						break;
+					case 2:
+						msg.textContent = 'Rechte Maustaste geklickt.';
+						break;
+					default:
+						msg.textContent = `Unbekannter Mouse Code: ${event.button}`;
+				}
+			});
+		}
+
+		// *** ************ Tastastur *************************
+		//document.onkeypress = function(e){		//ganzes dokument kriegt on keypress, e - event
+		//     console.log(e.keyCode, e.code, e.key);	//keycode- codenr des buchstaben, code - wort+buchstabe, key - buchstabe
+		//};
+
+		// document.addEventListener('keydown', (event) => {		//fragt auch ctr, nimmt 3 param
+		
+		//     if (event.ctrlKey) {
+		//         console.log(`Kombination von controlKey + ${event.key}`);
+		//     } else {
+		//        console.log(`Folgende Taste wurde gedrückt: ${event.key}`);
+		//     }
+		// }, false);	//false kann raus
+
+		// document.addEventListener('keyup', (event) => {		//wenn taste hochkommt
+		//     const keyName = event.key;
+		//     if (keyName === 'Control') {
+		//         console.log('Control Taste wurde gedrückt');
+		//     }
+		//     if (event.ctrlKey) {
+		//         console.log(`Kombination von controlKey + ${keyName}`);
+		//     } else {
+		//         console.log(`Folgende Taste wurde gedrückt: ${keyName}`);
+		//     }
+		// });
+
+		document.addEventListener ("keypress", function (event) {	//gedrückt halten
+			console.log ("keypress: " + event.key + " " + event.metaKey)
+		});
+
+
+	</script>
+</body>

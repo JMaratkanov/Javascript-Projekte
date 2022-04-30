@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vorführungen</title>
+
+		<script>
+			//HTTP Zustandslos - Nutzer wird bei der nächsten Anfrage vergessen, Keine Info dass User z.B. eingeloggt
+			//Cookies werden an Server übertragen
+			//1. Session Cookies: Existiert nur während Session (schließen Fenster zb - weg)
+			//2. Permanent Cookies: speichern Informationen über längeren Zeitraum und wird nach Sessionende nicht gelöscht, Dauer kann gespeichert werden
+			//login merken: Permanent Cookie
+			//Haltbarkeit durch Attribut maxage festgelegt, bei aufruf des requests + sekunden - ersetzt expires, ohne dann haben wir session cookie
+			//expires dagegen braucht neues Datum
+			//Cookies sehen aus wie Strings, sind aber Key - values
+			//Mit Dokument obj kann man mit Js einen Cookie als String setztn. Speicherung durch Zuweisung
+			
+			'use strict';
+			document.cookie = 'name=wert;';
+			document.cookie = 'wert1=abc;';
+			document.cookie = 'wert2=def;';
+			document.cookie = 'wert3=ghi;';
+			
+			//Finden bei Webspeicher - Cookies
+
+
+			document.cookie = 'wertAblaufVersuch = ersterWert; max-age=' + 60*60*24*999 ; 	//999 Tage
+			document.cookie = 'haeltLAngeAn=cookieWert; expires=Fri, 31 Dec 9999 23:59:59 GMT'; //=> Ablaufdatum auf sollte max 2030
+			
+			//Path definiert Geltungsbereich - eig irrelevant
+			document.cookie = 'wertAblaufVersuch = ersterWert; path=/kontakt; max-age=' + 60*60*24*999 ;
+			
+			//secure: wenn ich einen cookie mit https speichere kann es nur mit https und nicht http gelesen werden
+
+			function setzeCookie(name = 'keinName') {	//parameter hat standartwert.. dh wenn ich nichts eingebe und klicke -kein name
+				let cookieValue = 'meinCookieWert;';	//standartwert2
+				let input = document.querySelector('#cookieNameId').value;
+				if(input != ''){
+					name = input;		//Hole Cookie key
+					let cookieWert = document.querySelector('#cookieValueId').value; // hole cookie val aus textbox
+					if(cookieWert!= ''){
+						cookieValue = cookieWert;
+					}
+				}
+
+				let getTime = function(day){	//anon fk rechnet day x (tage in sekunden)
+					return day*24*60*60;
+				}
+				let maxAge = "max-age=" + getTime(730) + ";";
+
+				// Cookie setzen (Name, Wert, Ablaufdatum und Pfad)
+				if(name == 'keinName'){
+					document.cookie = "cookiesDirective="+cookieValue +";" + maxAge;	//cookiesDirective standartwert
+				} else{
+					document.cookie = name + "=" + cookieValue + ";" + maxAge;
+				}
+
+			}
+
+			function loescheCookie() {
+				// Ablaufdatum des betreffenden Cookies in die Vergangenheit setzen
+				var expires = "expires=Thu, 01-Jan-1970 00:00:01 GMT";
+				let cookieName = 'cookiesDirective';
+				let cookieWert = document.querySelector('#cookieNameId').value;	//für diesen Key aus Textbox
+				if(cookieWert!= ''){
+					cookieName = cookieWert;
+				}
+				// Cookie setzen (Name, Ablaufdatum)
+				document.cookie = cookieName + "=;"+expires;
+			}
+
+			//Localstore - zugriff über locales Storageobejt -stellt speicher ohne Ablaufdatum zur Verfügung
+			//Werte beliebiger Datentyp, aber immer als String gespeichert.. , müssen aber wieder mit parseInt etc gecasted werden
+			
+			//Wert setzen
+			localStorage.setItem('meinHund', 'Paredes');
+			console.log('Local Storage', localStorage.getItem('meinHund'));	//lesen
+
+			//Wert löschen
+			localStorage.removeItem('meinHund');	// wird angezeigt aber ist gelöscht, klappt nicht
+			localStorage.setItem('meinHund', 'Paredes');
+			localStorage.setItem('meinAuto', 'BMW');
+			localStorage.setItem('meinBoot', 'Swan64');
+
+			//löscht den Speicher
+			//localStorage.clear();
+
+			var arr = [[1,2,3],["eBike","Segelboot","Zug","Bus"]];   // Mehrdimensionales Array
+			console.log (arr);
+
+			var json = JSON.stringify (arr);                         // Array in String umwandeln, mit json stringyfy und parse kann man auch objekte nehmen
+			console.log (json);
+			localStorage.setItem ("complexValue", json);                  // String in localStorage speichern
+
+			var com = JSON.parse (localStorage.getItem ("complexValue")); // Auslesen, String -> Array
+			console.log(com);
+
+			for (let i=0, iC=localStorage.length; i<iC; i++) {		//gesammten localstorage auslesen
+				let storageKey = localStorage.key(i);
+				console.log(storageKey + ' : ' + localStorage.getItem(storageKey) );
+			}
+
+		</script>
+	</head>
+	<body>
+
+		<h1>Cookies und local Storage</h1>
+		<label for="cookieNameId">Cookie Name</label>
+		<input type="text" id="cookieNameId"/> 
+		<br/>
+		<br/>
+		<label for="cookieValueId">Cookie Wert</label>
+		<input type="text" id="cookieValueId"/> 
+		<br/>
+		<br/>
+		<button type="button" onclick="setzeCookie()">Cookies setzen</button>
+		<button type="button" onclick="loescheCookie()">Cookies löschen</button>
+	</body>
+</html>

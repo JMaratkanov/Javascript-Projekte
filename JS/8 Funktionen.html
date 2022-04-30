@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Funktionen</title>
+		
+		<!-- Achtung, wenn man Script im header definiert könnten Elemente unbekannt sein -->
+		<!-- Deswegen ab in den Body oder sowas hier machen: -->
+		
+		<script>
+       'use strict'
+        window.onload = function () {
+            document.querySelector("#greet").onclick = function () { //steuert button mit id="greet" an
+                alert("onload");
+            }
+        }
+		</script>
+	</head>
+	
+	<body>
+		<button id="greet">Sag Hallo onload</button>
+		
+		<h1>Funktionen</h1>
+		
+		<button onclick="ohneParameter()">Start</button>
+		<br/>
+		
+		<!--lese wert aus und mach was damit
+		# referenziert die id-->
+		<label for="numbersId">Zahlen</label>
+		<input type="text" name="numbers" value="" id="numbersId">
+		<button onclick="calculate()">Berechne</button>
+		
+		<br/>
+		<div class="response"></div>
+		
+	
+		<script>
+			//'use strict'
+			
+			function ohneParameter(){
+				console.log('Funktion ohne Parameter');
+			}
+			
+			//funktionen lassen sich in js ausführen bevor sie definiert wurden obwohl von oben nach unten interprätiert wird
+
+			before(); 
+			function before() { 
+				console.log('Bevor definiert'); 
+			}
+			
+			function calculate(){ 
+				let val = document.querySelector('#numbersId'); 
+				console.log(val.value * val.value);
+				//ändere direkt den wert des inputfeldes
+				val.value = val.value * val.value;
+			}
+			
+			//Funktion mit parametern
+			function name(first, last, age){ 
+				console.log( 'Vorname: ' + first + ', Nachname: ' + last + ', Alter: ' + age );
+			} 	
+			name('Mark', 'Kostmann' , 63);
+
+			//primitive datentypen - call by value
+			// objects call by refernece
+			let change = 'no'; 
+			function changeFunci(val){ 
+				val = 'yes'; 
+			} 
+			changeFunci(change); console.log(change); 
+
+			change = [111,222,333]; 
+			function changeFunci(val){
+				val[1] = 'yes';
+			} 
+			changeFunci(change); console.log(change);
+			
+			//function mit return
+			function returnFunci(number){ return number * number; }
+			console.log(returnFunci(2));
+
+			//funktion als parameter
+			//Funci ist erst später bekannt.. durch den scope der äußeren funktion kennt die innere deren variablen
+			
+			function mapping(funktion, array) { 
+				let result = []; // neues Array 
+				let i; 
+				for (i = 0; i < array.length; i++) {
+					result[i] = funktion(array[i]); 
+				}
+				return result;
+			} 
+
+			function funci(x) { return x * x * x; }
+
+			let array = [2, 5, 10, 100]; 
+			console.log(mapping(funci,array));
+			
+			//rekursion mit art void return
+			function countDown(x) { 
+				if (x < 5) return; // Abbruch Bedingung 
+				console.log (x); 
+				countDown (x-1);
+			} 
+			countDown (10);
+
+			//anaonyme funktion - ohne namen werden variable zugewiesen
+			square = function(a){ return a * a; } 
+			console.log(square(7));
+			
+			// Arrow Funktionen
+			//nimm => gib
+			let addiere = (a,b) => { return a+b; };
+			console.log (addiere(5,7));
+ 
+
+			let quadriere1 = a => { return a*a; };
+			console.log (quadriere1(4)); 
+
+			//ohne return Hat die Anweisung nur eine Zeile kann man die geschweifte Klammern auch weglassen. Ebenso braucht man hier kein return;
+			let quadriere2 = a => a*a; 
+			console.log (quadriere2(3)); 
+			
+			//closures sind funtionen die in funktionen erzeugt werden, returns inner function
+			//innere funktion nur in aüßeren bekannt
+			//Closures sind Funktionen, die in Funktionen erzeugt werden. Die innere Funktion ist nur in der umgebenden Funktion verfügbar. Closures schotten Daten ab, denn die innere Funktion ist nur in der umgebenden Funktion 
+			//verfügbar und bindet Variablen an eine Umgebung (Scope).Ein Closure ist eine Funktion, die Zugriff auf den Scope (Umgebung) ihrer umfassenden 
+			//Funktion hat, selbst nachdem die umschließende Funktion abgeschlossen wurde.
+
+			let show = function(name) { // äußere Funktion definiert die Variable "name" 
+
+				var displayName = function() { // displayName() == innere Funktion, es ist die 'Closure' innere Funktion hat Zugriff auf "name" Variable der äußeren Funktion
+					return name;	
+				} 
+				return displayName; // gibt innere Funktion zurück 
+			} 
+
+			let myName = show('Mark Kostmann'); console.log(myName()); 
+
+			//same //Geschachtelte Funktionen - rückgabewert ist eine Funktion die du dann nochmal als Funktion handhaben musst
+			function addd(x) { 
+				return function(y) { 
+					return x + y; 
+				};
+			} 
+
+			var addforx3 = addd(3); 
+			console.log(addforx3(9)); // 12 
+
+			//globale variable - ist auch in anderen script tags verfuegbar aber auch die mit let!
+			money = 10000000000000;
+			
+			let createPerson = function(name) {
+				let geschlecht;
+				return {
+					setName: function(newName) {
+					name = newName;
+					},
+					getName: function() {
+					return name;
+					},
+					getGeschlecht: function() {
+					return geschlecht;
+					},
+					setGeschlecht: function(neuesGeschlecht) {
+						if(typeof neuesGeschlecht === 'string' && (neuesGeschlecht.toLowerCase() === 'männlich'	|| neuesGeschlecht.toLowerCase() === 'weiblich')) {
+							geschlecht = neuesGeschlecht;
+						}
+					}
+				}
+			}
+			let person = createPerson('Claudia');
+			person.setGeschlecht('weiblich');
+			console.log(person.getName()); // Claudia
+			console.log(person.getGeschlecht()); // weiblich
+			person.setName('Jojo');
+			person.setGeschlecht('männlich');
+			console.log(person.getGeschlecht()); // männlich
+			console.log(person.getName()); // J
+		</script>
+		
+		<script>
+			console.log(`my money is: ${money}`);
+			let x = quadriere1(20);
+			let y = addiere(2,3);
+			console.log(x);
+			console.log(y);
+		</script>
+	</body>
+</html>

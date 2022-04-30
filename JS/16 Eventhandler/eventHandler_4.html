@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>addEventListener</title>
+		<link rel="stylesheet" href="eventHandler.css" type="text/css"></link>
+	</head>
+
+	<body>
+
+
+	<div class="eventDemo">
+		Fokus erhalten; onfoucs<br/>
+		<input type="text" id="inputFocusId" placeholder="Ulla la, im Fokus">
+	</div>
+
+	<div class="eventDemo">
+		Key down<br/>
+		<input type="text" id="inputKeyDownId" placeholder="Keydown">
+	</div>
+
+
+	<div class="eventDemo" id="divEventId">
+		Add/remove event<br/>
+		<button id="cmdAddEventId">Klick event hinzu</button>
+		<button id="cmdremoveEventId">Klick event entfernen</button>
+	</div>
+
+	<div class="eventDemo">
+		Window<br/>
+		<span>Width = </span><span id="SpanID1"></span>
+		<br />
+		<span>Height = </span><span id="SpanID2"></span>
+	</div>
+
+	<script>
+		'use strict'
+		//in Textfeld reinklicken
+		document.querySelector("#inputFocusId").onfocus = function(){	//attribut kriegt fk, wenn mit eventlistnr nur 'focus'
+			console.log("get Focus, onfocus");
+		};
+		document.querySelector("#inputFocusId").addEventListener('blur', function(){	//kriegr Eventlistener
+			console.log("lost focus; on blur");
+		});
+		
+		
+		document.querySelector("#inputKeyDownId").addEventListener('keydown', (event) => {	//Eingabe in Textfeld
+			console.log(event.keyCode);
+			console.log(event.code);
+			console.log(event.key);
+		});
+
+		//Füge neues element mit button hinzu
+		document.getElementById("cmdAddEventId").addEventListener("click", addEvent);
+		function addEvent(){
+			document.querySelector("#divEventId").addEventListener('click', clickFunki);
+		}
+		document.getElementById("cmdremoveEventId").addEventListener("click", removeEvent);
+		function removeEvent(){
+			document.querySelector("#divEventId").removeEventListener('click', clickFunki);
+		}
+		
+		let i = 1;
+		function clickFunki(){
+			console.log(i + ".)klick funktioniert");
+			i++;
+		}
+
+		//resize Element, Zeigt größe an wenn browswer fenster sich ändert
+		window.addEventListener('resize', showWidthAndHeight);
+		function showWidthAndHeight(){
+			document.getElementById('SpanID1').innerText = document.documentElement.clientWidth;
+			document.getElementById('SpanID2').innerText = document.documentElement.clientHeight;
+		}
+
+
+	</script>
+</body>

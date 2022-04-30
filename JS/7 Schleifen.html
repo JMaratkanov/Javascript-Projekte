@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Schleifen</title>
+		<script>
+			'use strict'
+			for(let i = 0; i < 10; i++){
+
+				if(i == 8){
+					break;
+				}
+				
+				if(i == 3){
+					continue;
+				}
+				console.log(i);
+			}
+			
+			
+			let a = 0;
+			
+			//Kopfgesteuert
+			while(a<10){
+				a++;
+				if(a == 3){
+					break;
+				}
+				console.log('a' + a);
+			}
+			
+			//Fußgesteuert
+			do{
+				a++;
+				console.log('a' + a);
+			}while(a<10)
+			
+			//Label - Statement kann Label enthalten das zsm mit break oder continue verwendet wird
+			//Skript kann dadurch bei break, kann dabei eine Schleife verlasen und an einer markierten stelle fortfahren
+			
+			/*Eine Schleife kann ein Label erhalten . Ein Label wird zusammen mit dem break oder continue 
+			Statements verwendet. 
+			Mittels einer label-Anweisung kann das Skript bei einer break-Anweisung die Anweisungen eines 
+			tief verschachtelten Blocks verlassen und an der markierten Stelle im Code fortfahren oder bei einer
+			continue-Anweisung einen ganzen Durchlauf überspringen. 
+			Der Name von label ist frei wählbar, darf aber kein reserviertes Wort sein.
+			Labels, oder auch Marken genannt, sind selbstdefinierte Stellen innerhalb einer Schleife, sie dienen 
+			dazu, im Zusammenhang mit break und continue, den Ablauf einer Schleife zu steuern. Ein Label 
+			wird dabei durch einen selbstgewählten Namen sowie einen Doppelpunkt (:) definiert. */
+			
+			
+			//außere und innere Schleife
+			let x = 0;
+			let z = 0;
+			outerLoop:	//Label 1
+			while (true) {
+                console.log('Outer loops: ' + x);
+                x++;
+                z = 1; // stur auf 1 setzen
+                innerLoop: while (true) { 		//Label 2
+                    console.log('Inner loops: ' + z);
+                    z++;
+                    if (x === 3) {
+                        console.log('break outerloop');
+                        break outerLoop; // break + jump zur äußeren Schleife
+                    } else if (z === 3) {
+                        console.log('break innerLoop');
+                        break innerLoop; // auf innerLoop kann man verzichten
+                    }
+                }
+            }
+			
+			//for in (gerne mit Objekten un Eigenschaften verwendet)
+			let arr = ['a','b','c', 'd'];
+			for(const i in arr){		//deklariere Variable
+				console.log(arr[i]);	//Zählvariable in array -> Zeigt alle Inhalte des Arrays
+			}
+			
+			const objectVariable = {a:1,b:2,c:3,firstName: 'Mark',lastName: 'Kostmann'}
+			
+			for(const i in objectVariable){		//for i gibt uns den index, Zugriff mit index
+				console.log(objectVariable[i]);
+			}
+
+			//for of, Durchläuft auch alle Elemente, Gibt uns direkt den Inhalt
+
+			let array = [3, 5, 7, 'Jojo', 'Sand'];
+			array.firstName = 'Mdfgdfg'; //Erweiterung interessiert nicht
+			
+			for (let inhalt of array) {
+				console.log(inhalt); 
+			}
+
+			console.log("########");
+			
+			for (let i in array) {
+				console.log(i, array[i]); 
+			}
+
+			console.log("########");
+			//Man muss nicht wissen wie groß das Array ist
+			
+			const array1 = ['a', 'b', 'c', 'd', 'e'];
+			// array.forEach(element => console.log(element));
+			array1.forEach((element, index) => console.log(element, index));
+			array1.forEach((element) => console.log(element));
+			
+			//arrow Funktion
+				
+			
+		</script>
+	</head>
+	
+	<body>
+		<h1>Schleifen</h1>
+	</body>
+
+</html>

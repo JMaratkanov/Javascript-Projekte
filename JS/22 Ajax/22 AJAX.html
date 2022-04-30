@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vorführungen</title>
+
+		<script>
+		//async js und xml : webanwendung mit ajaxobjekt zur kommunikation mit einem server
+		//besonderes JS objekt was browser zur verfügung stellt zum senden und empfangen von Informationen in verschiedenen Formaten
+		//json,xml,html,txt
+		//Normales Js sendet HattpAnfrage an webserver, webserver antwortet normal mit neuer html und ersetzt die ganze html
+		//Ajax ermöglicht holen von kleinen Informationen vom webserver auf nachfrage, Daten werden nachgeladen und eingebaut
+		//Damit Ajax funktioniert muss browser vorbereitet werden -> Man braucht ein js XMLHttpRequest- Objekt
+		
+		//WTF man kann getAjax() und andere JS funktionen direkt in der browserkonsole aufrufen
+		
+			'use strict'
+			let httpRequest = new XMLHttpRequest();	//Erzeuge neues Objekt, hier überall gültig
+			
+			function getAjax(){
+				if (!httpRequest) {
+					alert('Eine AJAX Anfrage kann nicht stattfinden');		//für steinalte browser
+					return false;
+				}
+				httpRequest.open('GET', 'test.html');			//Übergebe Get Parameter und adresse ?name=sdsf ; https://ebs01-stg.telekom.de/wholeworks-ks/createerrorfile?order=220408-POMWHBP1DGF6L ACHTUNG CORS
+				httpRequest.send();								//hier geht die anfrage los
+				httpRequest.onreadystatechange = prepareAnswer;		//eigenschaftd des objektes die reagiert wenn eine antwort vom server kommt- rufe dann prepare anwer auf
+			}														//Keine Runde Klammer! Gebe Refernezspeicher von Funktion
+
+			function prepareAnswer() {
+				if (httpRequest.readyState === XMLHttpRequest.DONE) {	//Alles angekommen?
+					if (httpRequest.status === 200) {					//Status = 200 = Alles OKay
+						alert(httpRequest.responseText);				//Gebe Antworttext aus
+					} else {
+						alert('Es gibt ein Problem mit der AJAX Anfrage');
+					}
+				}
+			}
+
+			//Mit Post
+			// let httpRequest = new XMLHttpRequest();
+			// function getAjax(){
+			//     if (!httpRequest) {
+			//         alert('Eine AJAX Anfrage kann nicht stattfinden');
+			//         return false;
+			//     }
+			//     httpRequest.onreadystatechange = prepareAnswer;
+			//     httpRequest.open('POST', 'ajax.php');			
+			//     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');		//Nötig bei Post Request cpy/pst
+			//     httpRequest.send('ID=37&name=Mark&age=63');		//Hier Parameter die ich übertragen möchte
+			// }
+			//
+			// function prepareAnswer() {
+			//     if (httpRequest.readyState === XMLHttpRequest.DONE) {
+			//         if (httpRequest.status === 200) {
+			//             alert(httpRequest.responseText);
+			//         } else {
+			//             alert('Es gibt ein Problem mit der AJAX Anfrage');
+			//         }
+			//     }
+			// }
+
+			//Daten Ändern, buttons rufen auf mit param "leer" und param "1"
+			function getData(val){
+				AJAX(params, val);			//fk
+			}
+
+			// Parameter:
+			let params = {
+				url : 'ajax.php',
+				method : 'POST',
+				formData : 'kundenID=4711&name=Mark Kostmann&gruss=Hallo Welt'
+			}
+
+			function AJAX(params,set){
+				// false ? alert(true) : alert("false") => ternärer Operator
+				let xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP'); //stoneage check browser
+				// *** Open first, before setting the request headers.
+				xhr.open(params.method, params.url, true);	//true überflüssig
+				// *** Now set the request headers.
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.send(params.formData);
+				xhr.onload = function() {					//nicht onreadystatechange hier onload mit anon fk
+					if (xhr.status === 200) {	//u okay bruh?
+
+						let data = JSON.parse(this.responseText);		//Pack hier die AW rein in ein json-objekt - also ein Objekt
+
+						if(set == 1){
+
+							let img = new Image();
+							let img2 = new Image();
+							img.src = data.img_1;
+							document.querySelector('#imageId').appendChild(img);
+							img2.src = data.img_2;								//von aw die bild src
+							document.querySelector('#imageId').appendChild(img2);
+
+							document.querySelector('#loremId').innerHTML = data.lorem;
+							document.querySelector('#baconId_1').innerHTML = data.bacon_1;		//Texte
+							document.querySelector('#baconId_2').innerHTML = data.bacon_2;
+							document.querySelector('#baconId_3').innerHTML = data.bacon_3;
+							document.querySelector('#baconId_4').innerHTML = data.bacon_4;
+							document.querySelector('#baconId_5').innerHTML = data.bacon_5;
+						} else {
+
+							document.querySelector('#loremId').innerHTML = "";
+							document.querySelector('#baconId_1').innerHTML = "";
+							document.querySelector('#baconId_2').innerHTML = "";
+							document.querySelector('#baconId_3').innerHTML = "";
+							document.querySelector('#baconId_4').innerHTML = "";
+							document.querySelector('#baconId_5').innerHTML = "";
+							console.table(data);
+							console.log(data);
+						}
+
+					}
+				};
+			}
+
+		</script>
+	</head>
+	
+	<body>
+
+		<h1>AJAX</h1>
+		<br/><br/>
+		<button onclick="getAjax()">AJAX GET HTML</button>
+		<button onclick="getData()">AJAX console</button>
+		<button onclick="getData(1)">AJAX Site-Text</button>
+		<p id="imageId"></p>
+		<p id="loremId"></p>
+		<p id="baconId_1"></p>
+		<p id="baconId_2"></p>
+		<p id="baconId_3"></p>
+		<p id="baconId_4"></p>
+		<p id="baconId_5"></p>
+
+
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilder laden</title>
+
+</head>
+<body>
+<img src="../img/kiwi.jpg" alt="kiwoooi"/> <!-- hat nichts mit script zu tun-->
+<script>
+    'use strict'
+	let i = 1;
+	
+    meineAnsynchroneFunktion("../img/kiwi.jpg");
+    
+    function meineAnsynchroneFunktion(uri) {
+        let image = new Image();
+        //Mit image.src wird die Existenz des Bildes ermitteln
+        image.src = uri;		
+
+		//Img hat 2 methoden- wenn imgage.src ein bild auf dem pfad findet ruft er eine der beiden auf
+        image.onload = function() {
+            console.log("Das " + i + ". Bild wurde geladen");
+            i++; //i wird global inkrementiert weil es nicht im parameter ist -> er holt sich das außerhalb des fk scopes
+			
+        }
+        image.onerror = function() {
+            console.log("hups, es gab einen Fehler");
+        }
+    }
+	
+	console.log(i);
+	//JS ist single threaded dh es können nicht mehrere scripte parallel laufen
+	//Promises sorgen für sicheres verhalten bei asynchronität- man kann then benutzen
+	//asynchron - ANfragezeit und antwortzeit ungewisse verzögerung
+	//Promiseobjekt versprechen -> Wenn erfüllt wird (code klappt) -> Erg ein wert mit dem man arbeiten kann- resolve, sonst fehlerobjekt reject
+	
+	asyncfunc("../img/kiwi.jpg").then(image => {//URI mal falsch schreiben
+            console.log(image);
+            return {
+                src: image.src,
+                width: image.width,
+                height: image.height,
+                contentEditable: image.contentEditable,
+                loading: image.loading,
+                localName: image.localName
+            }
+        })
+        .then(data => {
+            console.log("Höhe: " + data.height);
+            console.log("Breite: " + data.width);
+            console.log("src: " + data.src);
+            console.log("contentEditable: " + data.contentEditable);
+            console.log("loading: " + data.loading);
+            console.log("localName: " + data.localName);
+        })
+        .catch(error => {
+            console.log("Fehler: " + error);
+            let noImage = new Image()
+            noImage.src = "./aPath/dummy.png"
+            return noImage
+        });
+
+		function asyncfunc(uri) {
+			return new Promise((resolve, reject) => {		//es gibt jetzt resolve und reject, bei resolve wird ein bild returned?
+				let image = new Image();
+				image.src = uri;
+
+				image.onload = function() {
+					console.log(i + ". Bild wurde geladen");
+					i++;
+					//resolve kann nur einen Parameter verarbeiten.
+					resolve(image);		//statt return
+				}
+				image.onerror = function() {
+					reject(new Error("Kann das Bild mit URI: " + uri + " nicht laden :-(("));
+				}
+			});
+		}
+
+
+</script>
+</body>
+</html>

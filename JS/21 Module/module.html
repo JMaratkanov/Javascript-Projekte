@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vorführungen</title>
+
+		<script type="module">
+			//module: Code oder CodeTeile die in einem Program exportiert und in ein anderes importiert werrden können
+			//Debugen und fehlerfinden einfacher, Code wiederverwendbar, exportstatement verwendet in datei wo man code exportieren möchte
+			//Man kann variablen (mit wert), klassen, und funktionen exportieren und importieren
+			
+			//Man kann gezielt einzelne Komponenten importieren im gegensatz zu <script src=
+
+			// import {a,b,c} from './car.js'
+			import {AAA,BBB,CCC, sagHallo, Car} from './car.js'		//Meeehr script im script
+			// console.log(a,b,c);
+			console.log(AAA,BBB,CCC);
+
+			sagHallo();
+
+			let Auto = new Car('BMW', 333);
+			console.log('Ich habe einen: ' + Auto.getName + ' und der hat '+ Auto.getPS);
+			Auto.setName = 'Mercedes';
+			Auto.setPS = 444;
+			console.log('Jetzt habe ich ein: ' + Auto.getName + ' und der hat '+ Auto.getPS);
+		</script>
+	</head>
+	<body>
+
+	<h1>Module</h1>
+		so sieht ein export in js aus
+		<br>
+		export {name1, name2, ... nameN}
+		<br>
+		export {name1 as a, name2 as b, ... nameN as c}
+		<br>
+		hier mit alias
+	</body>
+</html>

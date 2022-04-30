@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Variablen</title>
+		<meta charset="UTF-8">
+		<script>
+        'use strict'
+        if(true){
+            console.log("True");
+        }
+
+        let wert1 = 10;
+        let wert2 = 4;
+        if(wert2 > wert1){
+            console.log("wert2 ist größer als wert1");
+        }else{
+            console.log("wert2 ist kleiner als wert1");
+        }
+
+        let bedingung;
+        if(bedingung){
+            //anweisungen
+        }else if(bedingung){
+                // anweisung
+        }else if(bedingung){
+                //anweisung
+        }else{
+		
+		}
+
+        //Modulo %
+        console.log(wert1 % 2);
+        console.log(wert1 % 3);
+        console.log(wert1 % 7);
+
+        // switch
+        let fruit = 'Banane';
+        switch(fruit){
+            case 'Banane': // weil break fehlt führt er den rest aus und brinted banane
+            case 'Kirsche':
+            case 'xxxx':
+                console.log(fruit + " esse ich gerne");
+                break;
+            case 'Apfel':
+                console.log('Mit dem (' + fruit + ') mach ich gerne Apfelsaft.');
+                break;
+            case 'Orange':
+                console.log('Diese Frucht (' + fruit + ') esse ich gerne.');
+                break;
+            default:
+                console.log('Diese Frucht (' + fruit + ') existiert nicht.');
+        }
+
+		// Bedingter (ternäre) Operator
+		let alter = 12;
+		console.log(alter>=18 ? 'erwachsen' : 'minderjährig')
+       
+        function getFee(isMember) {
+            return (isMember ? 'is true' : 'is false or null');
+        }
+
+        console.log(getFee(true));
+        console.log(getFee(false));
+        console.log(getFee(null));
+		
+    </script>
+	</head>
+	
+	<body>
+		<h2>Variablen</h2>
+	
+	</body>
+</html>
